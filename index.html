@@ -3,7 +3,9 @@
 
 <head></head>
 
-<body>SCORE:
+<body>
+    
+    SCORE:
     <input id="lblScore" type="text" />
     <br />
     TIME:
@@ -12,20 +14,20 @@
     <canvas id="canvas" height="600" width="600"></canvas>
 
 
-    <form onsubmit="return hila(this)" id="registration">
+    <form id="registration">
         User name:<br>
-        <input type="text" name="userName"><br>
+        <input type="text" name="userName"/><br>
         Password:<br>
-        <input type="password" name="password"><br>
+        <input type="password" name="password"/><br>
         First name:<br>
-        <input type="text" name="firstName" value="nammmmmmmmme"><br>
+        <input type="text" name="firstName"/><br>
         Sure name:<br>
-        <input type="text" name="sureName"><br>
+        <input type="text" name="sureName"/><br>
         Email:<br>
-        <input type="text" name="email"><br>
+        <input type="text" name="email"/><br>
         Date of birth:<br>
-        <input type="date" name="dateOfBirth"><br>
-        <input type="submit" value="Submit">
+        <input type="date" name="dateOfBirth"/><br>
+        <input type="submit" value="Submit"/>
     </form>
 
     <script type="text/javascript">
@@ -40,23 +42,18 @@
 
         Start();
 
-        function hila (form){
-            alert(form.value);
-        }
-
         function Start() {
             board = new Array();
             score = 0;
             pac_color = "yellow";
-            var cnt = 100;
+            var cnt = 144;
             var food_remain = 50;
             var pacman_remain = 1;
             start_time = new Date();
-            for (var i = 0; i < 10; i++) {
+            for (var i = 0; i < 12; i++) {
                 board[i] = new Array();
-                //put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
-                for (var j = 0; j < 10; j++) {
-                    if ((i === 3 && j === 3) || (i === 3 && j === 4) || (i === 3 && j === 5) || (i === 6 && j === 1) || (i === 6 && j === 2)) {
+                for (var j = 0; j < 12; j++) {
+                    if (Math.random() <= 0.80 || i == 0 || j==0 || i==12 ||j==12) {
                         board[i][j] = 4;
                     } else {
                         var randomNum = Math.random();
