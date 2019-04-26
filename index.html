@@ -2,46 +2,10 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
     <script src="jQuery.js" type="text/javascript"></script>
     <script src="jQueryScripts.js" type="text/javascript"></script>
-</head>
-
-<body>
-    <div id="header">
-        SCORE:
-        <input id="lblScore" type="text" />
-        <br />
-        TIME:
-        <input id="lblTime" type="text" />
-        <br />
-    </div>
-    <div id="menu">
-        <a href="#welcome" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo" style="width:25%">Welcome</a>
-        <a href="#register" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo"  style="width:25%">Register</a>
-        <a href="#login" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo" style="width:25%">Login</a>
-        <a href="#about" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo" style="width:25%">About</a>
-    </div>
-    <div id="content">
-        <canvas id="canvas" height="600" width="600"></canvas>
-    </div>
-    <form id="registration">
-        User name:</br>
-        <input type="text" name="userName" /><br>
-        Password:</br>
-        <input type="password" name="password" /><br>
-        First name:</br>
-        <input type="text" name="firstName" value="nammmmmmmmme" /><br>
-        Sur name:</br>
-        <input type="text" name="surName" /><br>
-        Email:</br>
-        <input type="text" name="email" /><br>
-        Date of birth:</br>
-        <input type="date" name="dateOfBirth" /><br>
-        <input type="submit" value="Submit" onclick="hila()" />
-    </form>
-    </div>
-
     <script type="text/javascript">
         var context = canvas.getContext("2d");
         var shape = new Object();
@@ -216,6 +180,27 @@
             }
         }
     </script>
+</head>
+
+<body>
+    <div id="header">
+    </div>
+    <div id="menu">
+        <a href="#welcome" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo" >Welcome</a>
+        <a href="#register" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo">Register</a>
+        <a href="#login" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo">Login</a>
+        <a href="#about" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo">About</a>
+    </div>
+    <div id="content">
+        SCORE:
+        <input id="lblScore" type="text"/>
+        TIME:
+        <input id="lblTime" type="text"/>
+        <br />
+        <canvas id="canvas" height="600" width="600"></canvas>
+
+        
+    </div>
     <div id="footer"></div>
 </body>
 
