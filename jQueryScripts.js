@@ -1,4 +1,3 @@
-$(document).submit(function (event) {
-    var form = document.getElementById("registration");
-    form.elements
+$("a_welcome").click(function(){
+    $("welcome")
 });
