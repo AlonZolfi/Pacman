@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 
+<<<<<<< HEAD
 <head></head>
 
 <body>
@@ -28,7 +29,48 @@
         Date of birth:<br>
         <input type="date" name="dateOfBirth"/><br>
         <input type="submit" value="Submit"/>
+=======
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <script src="jQuery.js" type="text/javascript"></script>
+    <script src="jQueryScripts.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="header">
+        SCORE:
+        <input id="lblScore" type="text" />
+        <br />
+        TIME:
+        <input id="lblTime" type="text" />
+        <br />
+    </div>
+    <div id="menu">
+        <a href="#welcome" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo" style="width:25%">Welcome</a>
+        <a href="#register" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo"  style="width:25%">Register</a>
+        <a href="#login" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo" style="width:25%">Login</a>
+        <a href="#about" class="w3-bar-item w3-border w3-button w3-red w3-hover-indigo" style="width:25%">About</a>
+    </div>
+    <div id="content">
+        <canvas id="canvas" height="600" width="600"></canvas>
+    </div>
+    <form id="registration">
+        User name:</br>
+        <input type="text" name="userName" /><br>
+        Password:</br>
+        <input type="password" name="password" /><br>
+        First name:</br>
+        <input type="text" name="firstName" value="nammmmmmmmme" /><br>
+        Sur name:</br>
+        <input type="text" name="surName" /><br>
+        Email:</br>
+        <input type="text" name="email" /><br>
+        Date of birth:</br>
+        <input type="date" name="dateOfBirth" /><br>
+        <input type="submit" value="Submit" onclick="hila()" />
+>>>>>>> 19e9ea956eb5f5e235af088ba507dfefa78f8e0c
     </form>
+    </div>
 
     <script type="text/javascript">
         var context = canvas.getContext("2d");
@@ -40,8 +82,22 @@
         var time_elapsed;
         var interval;
 
-        Start();
+        /*Start();*/
 
+<<<<<<< HEAD
+=======
+        function hila() {
+            var regForm = document.getElementById("registration");
+            document.getElementById("demo").innerHTML = "dsadda";
+            /*var text = "";
+            var i;
+            for( i = 0; i < regForm.length; i++){
+                text += x.elements[i].value + "<br>";
+            }
+            document.getElementById("demo").innerHTML = text;*/
+        }
+
+>>>>>>> 19e9ea956eb5f5e235af088ba507dfefa78f8e0c
         function Start() {
             board = new Array();
             score = 0;
@@ -192,6 +248,7 @@
             }
         }
     </script>
+    <div id="footer"></div>
 </body>
 
 </html>
