@@ -1,31 +1,33 @@
 $(document).ready(function() {
     <!-- Real-time Validation -->
     <!--username can't be blank-->
-    $("#contact_username").on('input', function() {
+    $("#contact_user_name").on('input', function() {
         var input=$(this);
-        var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]/;
-        var is_name=re.test(input.val());
+        var is_name=input.val();
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
     });
 
     $('#contact_password').on('input', function() {
         var input=$(this);
-        var is_name=input.val();
+        var re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        var is_name=re.test(input.val());
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
     });
 
-    $('#contact_firstName').on('input', function() {
+    $('#contact_first_name').on('input', function() {
         var input=$(this);
-        var is_name=input.val();
+        var re = /^[a-zA-Z]/;
+        var is_name= re.test(input.val());
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
     });
 
-    $('#contact_lastName').on('input', function() {
+    $('#contact_last_name').on('input', function() {
         var input=$(this);
-        var is_name=input.val();
+        var re = /^[a-zA-Z]/;
+        var is_name=re.test(input.val());
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
     });
@@ -61,7 +63,7 @@ $(document).ready(function() {
             event.preventDefault();
         }
         else{
-            alert('No errors: Form will be submitted');
+            saveUser(form_data);
         }
     });
 });
