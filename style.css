@@ -56,3 +56,19 @@ input.valid, textarea.valid{
 	border: 2px solid green;
 }
 
+#contact_register label{
+	display: inline-block;
+	width: 100px;
+	text-align: right;
+}
+#contact_submit{
+	padding-left: 100px;
+}
+#contact_register div{
+	margin-top: 1em;
+}
+textarea{
+	vertical-align: top;
+	height: 5em;
+}
+
