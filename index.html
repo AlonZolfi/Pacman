@@ -73,12 +73,96 @@ Hila Kesem Hadad 204706006, Alon Zolfi 205846074
                 <span class="error">This field is required</span>
             </div>
             <!-- Submit Button -->
-            <div id="contact_submit">
+            <div id="contact_submit_reg">
                 <button type="submit">Submit</button>
             </div>
         </form>
         <script type="text/javascript" src="validation.js"></script>
     </div>
+
+    <script type="text/javascript">
+        function getKeyBoard(input) {
+            addEventListener("keydown", function (e) {
+                input.val(e.valueOf());
+            }, false);
+        }
+    </script>
+
+    <div id="settings">
+        <form id="contact_settings" method="post" action="">
+            <!-- right button -->
+            <div>
+                <label for="contact_right_button">Right Button:</label>
+                <input type="text" id="contact_right_button" name="right_button" onclick="getKeyBoard(this)"></input>
+                <span class="error">This field is required</span>
+            </div>
+            <!-- left button -->
+            <div>
+                <label for="contact_left_button">Left Button:</label>
+                <input type="text" id="contact_left_button" name="left_button" onclick="getKeyBoard(this)"></input>
+                <span class="error">This field is required</span>
+            </div>
+            <!-- up button -->
+            <div>
+                <label for="contact_up_button">Up Button:</label>
+                <input type="text" id="contact_up_button" name="up_button" onclick="getKeyBoard(this)"></input>
+                <span class="error">This field is required</span>
+            </div>
+            <!-- down button -->
+            <div>
+                <label for="contact_down_button">Down Button:</label>
+                <input type="text" id="contact_down_button" name="down_button" onclick="getKeyBoard(this)"></input>
+                <span class="error">This field is required</span>
+            </div>
+            <!-- number of food -->
+            <div>
+                <label for="contact_food">Food Amount:</label>
+                <input type="number" max="90" min="50" id="contact_food" name="food"></input>
+                <span class="error">This field is required</span>
+            </div>
+            <!-- color of 5 points -->
+            <div>
+                <label for="contact_5_points">5 Points Food color:</label>
+                <input type="color" id="contact_5_points" name="5_points"></input>
+                <span class="error">This field is required</span>
+            </div>
+            <!-- color of 15 points -->
+            <div>
+                <label for="contact_15_points">15 Points Food color:</label>
+                <input type="color" id="contact_15_points" name="15_points"></input>
+                <span class="error">This field is required</span>
+            </div>
+            <!-- color of 25 points -->
+            <div>
+                <label for="contact_25_points">25 Points Food color:</label>
+                <input type="color" id="contact_25_points" name="25_points"></input>
+                <span class="error">This field is required</span>
+            </div>
+            <!-- time to play -->
+            <div>
+                <label for="contact_play_time">Time To Play:</label>
+                <input type="number" min="60" id="contact_play_time" name="play_time"></input>
+                <span class="error">This field is required</span>
+            </div>
+            <!-- number of monsters -->
+            <div>
+                <label for="contact_monsters">Monsters Amount:</label>
+                <input type="number" max="3" min="1" id="contact_monsters" name="monsters"></input>
+                <span class="error">This field is required</span>
+            </div>
+            <!-- Submit Button -->
+            <div id="contact_submit_set">
+                <button type="submit">Submit</button>
+            </div>
+            <!-- Random Button -->
+            <div id="contact_random">
+                <button type="submit">Random</button>
+            </div>
+        </form>
+        <script type="text/javascript" src="settings.js"/>
+    </div>
+
+
     <div id="login" hidden="true">
         <form id="login_form">
             User name:</br>
@@ -105,26 +189,38 @@ Hila Kesem Hadad 204706006, Alon Zolfi 205846074
             var start_time;
             var time_elapsed;
             var interval;
+            var right;
+            var left;
+            var up;
+            var down;
+            var food;
+            var points5;
+            var points15;
+            var points25;
+            var time;
+            var monsters;
+
+            function set() {
+                right=$("#contact_right_button").valueOf();
+                left=$("#contact_left_button").valueOf();
+                up=$("#contact_up_button").valueOf();
+                down=$("#contact_down_button").valueOf();
+                food=$("#contact_food").valueOf();
+                points5=$("#contact_5_points").valueOf();
+                points15=$("#contact_15_points").valueOf();
+                points25=$("#contact_25_points").valueOf();
+                time=$("#contact_play_time").valueOf();
+                monsters=$("#contact_monsters").valueOf();
+            }
 
             Start();
-
-            function hila() {
-                var regForm = document.getElementById("registration");
-                document.getElementById("demo").innerHTML = "dsadda";
-                /*var text = "";
-                var i;
-                for( i = 0; i < regForm.length; i++){
-                    text += x.elements[i].value + "<br>";
-                }
-                document.getElementById("demo").innerHTML = text;*/
-            }
 
             function Start() {
                 board = new Array();
                 score = 0;
                 pac_color = "yellow";
                 var cnt = 144;
-                var food_remain = 50;
+                var food_remain = food;
                 var pacman_remain = 1;
                 start_time = new Date();
                 for (var i = 0; i < 12; i++) {
@@ -180,16 +276,16 @@ Hila Kesem Hadad 204706006, Alon Zolfi 205846074
              * @return {number}
              */
             function GetKeyPressed() {
-                if (keysDown['ArrowUp']) {
+                if (keysDown[up]) {
                     return 1;
                 }
-                if (keysDown['ArrowDown']) {
+                if (keysDown[down]) {
                     return 2;
                 }
-                if (keysDown['ArrowLeft']) {
+                if (keysDown[left]) {
                     return 3;
                 }
-                if (keysDown['ArrowRight']) {
+                if (keysDown[right]) {
                     return 4;
                 }
             }
@@ -270,6 +366,7 @@ Hila Kesem Hadad 204706006, Alon Zolfi 205846074
                 }
             }
         </script>
+
     </div>
 
 

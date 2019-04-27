@@ -47,7 +47,7 @@ $(document).ready(function() {
     });
 
     <!-- After Form Submitted Validation-->
-    $("#contact_submit button").click(function(event){
+    $("#contact_submit_reg button").click(function(event){
         var form_data=$("#contact_register").serializeArray();
         var error_free=true;
         for (var input in form_data){
@@ -64,7 +64,4 @@ $(document).ready(function() {
             alert('No errors: Form will be submitted');
         }
     });
-
-
-
 });
