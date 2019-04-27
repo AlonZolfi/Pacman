@@ -72,3 +72,7 @@ textarea{
 	height: 5em;
 }
 
+#logged_user{
+	float:right;
+}
+
