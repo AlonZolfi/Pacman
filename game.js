@@ -52,11 +52,11 @@
                 } else {
                     var randomNum = Math.random();
                     if (randomNum <= 1.0 * food_remain / cnt) {
-                        if(food_remain_25>0) {
+                        if(randomNum > 0.6 && food_remain_25>0) {
                             board[i][j] = 10;
                             food_remain_25--;
                         }
-                        else if(food_remain_15>0) {
+                        else if(randomNum < 0.3 && food_remain_15>0) {
                             board[i][j] = 11;
                             food_remain_15--;
                         }
