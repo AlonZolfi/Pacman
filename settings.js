@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+
     $('#contact_right_button').on('input', function() {
         var input=$(this);
         var is_name=input.val();
@@ -123,8 +124,10 @@ $(document).ready(function() {
         }
         else{
             alert('No errors: Form will be submitted');
-            set();
             goTo("game");
+            setAllForGame();
+            Start();
+
         }
         return false;
     });
