@@ -38,25 +38,42 @@
         pac_color = "yellow";
         var cnt = 100;
         var food_remain = food;
+        var food_remain_5 = Math.ceil(food*0.6);
+        var food_remain_15 = Math.ceil(food*0.3);
+        var food_remain_25 = food-food_remain_5-food_remain_15;
         var pacman_remain = 1;
         start_time = new Date();
         for (var i = 0; i < 12; i++) {
             board[i] = new Array();
             for (var j = 0; j < 12; j++) {
                 var x = Math.random();
-                if (i == 0 || j == 0 || i == 11 || j == 11 || x <= 0.10) {
+                if (i == 0 || j == 0 || i == 11 || j == 11) {
                     board[i][j] = 4;
                 } else {
                     var randomNum = Math.random();
                     if (randomNum <= 1.0 * food_remain / cnt) {
+                        if(food_remain_25>0) {
+                            board[i][j] = 10;
+                            food_remain_25--;
+                        }
+                        else if(food_remain_15>0) {
+                            board[i][j] = 11;
+                            food_remain_15--;
+                        }
+                        else {
+                            board[i][j] = 1;
+                            food_remain_5--;
+                        }
                         food_remain--;
-                        board[i][j] = 1;
                     } else if (randomNum < 1.0 * (pacman_remain + food_remain) / cnt) {
                         shape.i = i;
                         shape.j = j;
                         pacman_remain--;
                         board[i][j] = 2;
-                    } else {
+                    } else if (x>0.5){
+                        board[i][j] = 4;
+                    }
+                    else {
                         board[i][j] = 0;
                     }
                     cnt--;
@@ -65,7 +82,18 @@
         }
         while (food_remain > 0) {
             var emptyCell = findRandomEmptyCell(board);
-            board[emptyCell[0]][emptyCell[1]] = 1;
+            if(food_remain_25>0) {
+                board[emptyCell[0]][emptyCell[1]] = 10;
+                food_remain_25--;
+            }
+            else if(food_remain_15>0) {
+                board[emptyCell[0]][emptyCell[1]] = 11;
+                food_remain_15--;
+            }
+            else {
+                board[emptyCell[0]][emptyCell[1]] = 1;
+                food_remain_5--;
+            }
             food_remain--;
         }
         keysDown = {};
@@ -75,7 +103,7 @@
         addEventListener("keyup", function (e) {
             keysDown[e.code] = false;
         }, false);
-        interval = setInterval(UpdatePosition, 250);
+        interval = setInterval(UpdatePosition, 100);
     }
 
 
@@ -126,10 +154,20 @@
                     context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
                     context.fillStyle = "black"; //color
                     context.fill();
+                } else if (board[i][j] === 10) {
+                    context.beginPath();
+                    context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+                    context.fillStyle = points25; //color
+                    context.fill();
+                } else if (board[i][j] === 11) {
+                    context.beginPath();
+                    context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+                    context.fillStyle = points15; //color
+                    context.fill();
                 } else if (board[i][j] === 1) {
                     context.beginPath();
                     context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
-                    context.fillStyle = "black"; //color
+                    context.fillStyle = points5; //color
                     context.fill();
                 } else if (board[i][j] === 4) {
                     context.beginPath();
@@ -167,17 +205,31 @@
             }
         }
         if (board[shape.i][shape.j] === 1) {
-            score++;
+            score+=5;
+        }
+        if (board[shape.i][shape.j] === 11) {
+            score+=15;
+        }
+        if (board[shape.i][shape.j] === 10) {
+            score+=25;
         }
         board[shape.i][shape.j] = 2;
         var currentTime = new Date();
-        time_elapsed = (currentTime - start_time) / 1000;
+        time_elapsed = time - ((currentTime - start_time) / 1000);
         if (score >= 20 && time_elapsed <= 10) {
             pac_color = "green";
         }
-        if (score === 50) {
+        if (time_elapsed <= 0 ){
+            window.alert("Time is up! LOSER!!!");
+            goTo("settings");
+        }
+        var food_5 = Math.ceil(food*0.6);
+        var food_15 = Math.ceil(food*0.3);
+        var food_25 = food-food_5-food_15;
+        if (score == food_5*5+food_15*15+food_25*25) {
             window.clearInterval(interval);
             window.alert("Game completed");
+            goTo("settings");
         } else {
             Draw();
         }
