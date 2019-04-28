@@ -84,15 +84,25 @@ $(document).ready(function() {
         var tmPmonsters=Math.ceil(x*(3-1)+1);
 
         $("#contact_right_button").val(tmPright);
+        $("#contact_right_button").removeClass("invalid").addClass("valid");
         $("#contact_left_button").val(tmPleft);
+        $("#contact_left_button").removeClass("invalid").addClass("valid");
         $("#contact_up_button").val(tmPup);
+        $("#contact_up_button").removeClass("invalid").addClass("valid");
         $("#contact_down_button").val(tmPdown);
+        $("#contact_down_button").removeClass("invalid").addClass("valid");
         $("#contact_food").val(tmPfood);
+        $("#contact_food").removeClass("invalid").addClass("valid");
         $("#contact_5_points").val(tmPpoints5);
+        $("#contact_5_points").removeClass("invalid").addClass("valid");
         $("#contact_15_points").val(tmPpoints15);
+        $("#contact_15_points").removeClass("invalid").addClass("valid");
         $("#contact_25_points").val(tmPpoints25);
+        $("#contact_25_points").removeClass("invalid").addClass("valid");
         $("#contact_play_time").val(tmPtime);
+        $("#contact_play_time").removeClass("invalid").addClass("valid");
         $("#contact_monsters").val(tmPmonsters);
+        $("#contact_monsters").removeClass("invalid").addClass("valid");
         return false;
     });
 
