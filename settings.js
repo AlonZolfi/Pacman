@@ -124,6 +124,7 @@ $(document).ready(function() {
         else{
             alert('No errors: Form will be submitted');
             set();
+            goTo("game");
         }
         return false;
     });

@@ -3,6 +3,7 @@ addAdminUser();
 function addAdminUser(){
     reg_users.push({username:"a",password:"a",firstname: "b", lastname: "c", email: "a@a.a", birthdate: "17-05-1993"});
 }
+
 function saveUser(register_form){
     var user_name = register_form[0].value;
     var password = register_form[1].value;
@@ -21,7 +22,8 @@ function logIn(){
         var user = reg_users[i];
         if (user.username == username && user.password == password) {
             alert("login successful");
-            showLoggedUser(username,true)
+            showLoggedUser(username,true);
+            goTo("settings");
             return;
         }
     }
