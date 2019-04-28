@@ -48,11 +48,29 @@
 	margin-left: 10px;
 }
 
+.error_reg{
+	display: none;
+	margin-left: 10px;
+}
+
+.error_show_reg{
+	color: red;
+	margin-left: 10px;
+}
+
 input.invalid, textarea.invalid{
 	border: 2px solid red;
 }
 
 input.valid, textarea.valid{
+	border: 2px solid green;
+}
+
+input.invalid_reg, textarea.invalid_reg{
+	border: 2px solid red;
+}
+
+input.valid_reg, textarea.valid_reg{
 	border: 2px solid green;
 }
 

@@ -18,15 +18,15 @@ $(document).ready(function() {
 
     $('#contact_first_name').on('input', function() {
         var input=$(this);
-        var re = /^[a-zA-Z]/;
-        var is_name= re.test(input.val());
+        var re = /^[a-zA-Z]+$/;
+        var is_name=re.test(input.val());
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
     });
 
     $('#contact_last_name').on('input', function() {
         var input=$(this);
-        var re = /^[a-zA-Z]/;
+        var re = /^[a-zA-Z]+$/;
         var is_name=re.test(input.val());
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
@@ -44,7 +44,7 @@ $(document).ready(function() {
     $('#contact_birthdate').on('input', function() {
         var input=$(this);
         var is_name=input.val();
-        if(is_name){input.removeClass("invalid").addClass("valid");}
+        if(is_name && new Date(is_name) < new Date()){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
     });
 
@@ -57,7 +57,7 @@ $(document).ready(function() {
             var valid=element.hasClass("valid");
             var error_element=$("span", element.parent());
             if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
-            else{error_element.removeClass("error_show").addClass("error");}
+            else{error_element.removeClass("error_show").addClass("error")}
         }
         if (!error_free){
             event.preventDefault();
