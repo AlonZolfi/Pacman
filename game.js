@@ -158,13 +158,6 @@
         lblTime.value = time_elapsed;
         for (var i = 0; i < 12; i++) {
             for (var j = 0; j < 12; j++) {
-                for (let k = 0; k < monsters; k++) {
-                    var thaMonsterImg = enemyImg[k];
-                    var thaMonster = enemy[k];
-                    if (i == thaMonster.x && j == thaMonster.y) {
-                        context.drawImage(thaMonsterImg, i * 60, j*60,60,60);
-                    }
-                }
                 var center = new Object();
                 center.x = i * 60 + 30;
                 center.y = j * 60 + 30;
@@ -198,6 +191,13 @@
                     context.rect(center.x - 30, center.y - 30, 60, 60);
                     context.fillStyle = "grey"; //color
                     context.fill();
+                }
+                for (let k = 0; k < monsters; k++) {
+                    var thaMonsterImg = enemyImg[k];
+                    var thaMonster = enemy[k];
+                    if (i == thaMonster.x && j == thaMonster.y) {
+                        context.drawImage(thaMonsterImg, i * 60, j*60,60,60);
+                    }
                 }
             }
         }
