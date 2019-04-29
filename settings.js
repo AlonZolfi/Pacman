@@ -71,7 +71,7 @@ $(document).ready(function() {
         return color;
     }
 
-    $("#contact_random button").click(function (event) {
+    $("#contact_random").click(function (event) {
         var tmPright="ArrowRight";
         var tmPleft="ArrowLeft";
         var tmPup="ArrowUp";
@@ -109,7 +109,7 @@ $(document).ready(function() {
 
         // need to valid the filds
     <!-- After Form Submitted Validation-->
-    $("#contact_submit_set button").click(function(event){
+    $("#contact_submit_set").click(function(event){
         var form_data=$("#contact_settings").serializeArray();
         var error_free=true;
         for (var input in form_data){
