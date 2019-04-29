@@ -1,4 +1,3 @@
-
     var context = canvas.getContext("2d");
     var shape = new Object();
     var board;
@@ -17,7 +16,8 @@
     var points25;
     var time;
     var monsters;
-
+    var enemy;
+    var enemyImg;
 
     function setAllForGame() {
         right = $("#contact_right_button").val();
@@ -38,8 +38,8 @@
         pac_color = "yellow";
         var cnt = 100;
         var food_remain = food;
-        var food_remain_5 = Math.ceil(food*0.6);
-        var food_remain_15 = Math.ceil(food*0.3);
+        var food_remain_5 = Math.floor(food*0.6);8
+        var food_remain_15 = Math.floor(food*0.3);
         var food_remain_25 = food-food_remain_5-food_remain_15;
         var pacman_remain = 1;
         start_time = new Date();
@@ -53,15 +53,15 @@
                     var randomNum = Math.random();
                     if (randomNum <= 1.0 * food_remain / cnt) {
                         if(randomNum > 0.6 && food_remain_25>0) {
-                            board[i][j] = 10;
+                            board[i][j] = 25;
                             food_remain_25--;
                         }
                         else if(randomNum < 0.3 && food_remain_15>0) {
-                            board[i][j] = 11;
+                            board[i][j] = 15;
                             food_remain_15--;
                         }
                         else {
-                            board[i][j] = 1;
+                            board[i][j] = 5;
                             food_remain_5--;
                         }
                         food_remain--;
@@ -80,18 +80,35 @@
                 }
             }
         }
+        enemyImg = new Array();
+        enemy = new Array();
+        for (let i = 0; i <monsters ; i++) {
+            enemyImg[i]=new Image();
+            enemyImg[i].src = "monster"+i+".png";
+            enemy[i] = {speed:256};
+            var cellForMonster = findRandomEmptyCell(board);
+            var xMonster =cellForMonster[0];
+            var yMonster =cellForMonster[1];
+            if(!(board[xMonster][yMonster] === 4)) {
+                enemy[i].x = xMonster;
+                enemy[i].y =yMonster;
+            }
+            else {
+                i--;
+            }
+        }
         while (food_remain > 0) {
             var emptyCell = findRandomEmptyCell(board);
             if(food_remain_25>0) {
-                board[emptyCell[0]][emptyCell[1]] = 10;
+                board[emptyCell[0]][emptyCell[1]] = 25;
                 food_remain_25--;
             }
             else if(food_remain_15>0) {
-                board[emptyCell[0]][emptyCell[1]] = 11;
+                board[emptyCell[0]][emptyCell[1]] = 15;
                 food_remain_15--;
             }
             else {
-                board[emptyCell[0]][emptyCell[1]] = 1;
+                board[emptyCell[0]][emptyCell[1]] = 5;
                 food_remain_5--;
             }
             food_remain--;
@@ -141,6 +158,13 @@
         lblTime.value = time_elapsed;
         for (var i = 0; i < 12; i++) {
             for (var j = 0; j < 12; j++) {
+                for (let k = 0; k < monsters; k++) {
+                    var thaMonsterImg = enemyImg[k];
+                    var thaMonster = enemy[k];
+                    if (i == thaMonster.x && j == thaMonster.y) {
+                        context.drawImage(thaMonsterImg, i, j, i + 60, j + 60);
+                    }
+                }
                 var center = new Object();
                 center.x = i * 60 + 30;
                 center.y = j * 60 + 30;
@@ -154,17 +178,17 @@
                     context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
                     context.fillStyle = "black"; //color
                     context.fill();
-                } else if (board[i][j] === 10) {
+                } else if (board[i][j] === 25) {
                     context.beginPath();
                     context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
                     context.fillStyle = points25; //color
                     context.fill();
-                } else if (board[i][j] === 11) {
+                } else if (board[i][j] === 15) {
                     context.beginPath();
                     context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
                     context.fillStyle = points15; //color
                     context.fill();
-                } else if (board[i][j] === 1) {
+                } else if (board[i][j] === 5) {
                     context.beginPath();
                     context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
                     context.fillStyle = points5; //color
@@ -177,8 +201,6 @@
                 }
             }
         }
-
-
     }
 
     function UpdatePosition() {
@@ -204,27 +226,29 @@
                 shape.i++;
             }
         }
-        if (board[shape.i][shape.j] === 1) {
+        if (board[shape.i][shape.j] === 5) {
             score+=5;
         }
-        if (board[shape.i][shape.j] === 11) {
+        if (board[shape.i][shape.j] === 15) {
             score+=15;
         }
-        if (board[shape.i][shape.j] === 10) {
+        if (board[shape.i][shape.j] === 25) {
             score+=25;
         }
         board[shape.i][shape.j] = 2;
+        updateMonsters();
         var currentTime = new Date();
         time_elapsed = time - ((currentTime - start_time) / 1000);
         if (score >= 20 && time_elapsed <= 10) {
             pac_color = "green";
         }
         if (time_elapsed <= 0 ){
+            window.clearInterval(interval);
             window.alert("Time is up! LOSER!!!");
             goTo("settings");
         }
-        var food_5 = Math.ceil(food*0.6);
-        var food_15 = Math.ceil(food*0.3);
+        var food_5 = Math.floor(food*0.6);
+        var food_15 = Math.floor(food*0.3);
         var food_25 = food-food_5-food_15;
         if (score == food_5*5+food_15*15+food_25*25) {
             window.clearInterval(interval);
@@ -232,5 +256,34 @@
             goTo("settings");
         } else {
             Draw();
+        }
+    }
+
+    function updateMonsters() {
+        for (let i = 0; i <monsters ; i++) {
+            var change = false;
+            var xMonster = enemy[i].x;
+            var yMonster = enemy[i].y;
+            /**if (xMonster == shape.i && yMonster==shape.j) {
+                window.clearInterval(interval);
+                window.alert("Achalta Ota!!!");
+                goTo("settings");
+            }**/
+            if (!change && shape.i < xMonster && (xMonster > 0 && board[xMonster - 1][yMonster] !== 4)){
+                enemy[i].x = xMonster-1;
+                change=true;
+            }
+            if (!change && shape.i > xMonster && (xMonster < 11 && board[xMonster+ 1][yMonster] !== 4)){
+                enemy[i].x = xMonster+1 ;
+                change=true;
+            }
+            if (!change && shape.j < yMonster && (yMonster > 0 && board[xMonster ][yMonster-1] !== 4)){
+                enemy[i].y = yMonster-1 ;
+                change=true;
+            }
+            if (!change && shape.i > yMonster && (yMonster < 11 && board[xMonster][yMonster+1] !== 4)) {
+                enemy[i].y = yMonster + 1 ;
+                change=true;
+            }
         }
     }
