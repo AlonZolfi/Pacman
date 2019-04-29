@@ -49,7 +49,7 @@ $(document).ready(function() {
     });
 
     <!-- After Form Submitted Validation-->
-    $("#contact_submit_reg button").click(function(event){
+    $("#contact_submit_reg").click(function(event){
         var form_data=$("#contact_register").serializeArray();
         var error_free=true;
         for (var input in form_data){
@@ -64,6 +64,8 @@ $(document).ready(function() {
         }
         else{
             saveUser(form_data);
+            goTo("login");
+            return false;
         }
     });
 });

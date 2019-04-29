@@ -12,7 +12,7 @@ function saveUser(register_form){
     var email = register_form[4].value;
     var birthdate = register_form[5].value;
     reg_users.push({username:user_name,password:password,firstname: first_name, lastname: last_name, email: email, birthdate: birthdate});
-    alert("Registered Succesfully");
+    alert("Registered Successfully");
 }
 
 function logIn(){

@@ -3,21 +3,24 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link href="forms_style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>
     <script src="jQuery.js" type="text/javascript"></script>
 </head>
 
 <body>
 <div id="header">
-    KOTERET<br/>
+    <img id="logo_img" src="logo.gif"/>
+    Pacman Game
     Hila Kesem Hadad 204706006, Alon Zolfi 205846074
     <p id="logged_user" hidden="true">Hello</p>
 </div>
 <div id="menu">
-    <a id="a_welcome" href="#welcome" class="a_menu w3-bar-item w3-border w3-button w3-red w3-hover-indigo a_menu" >Welcome</a><br/>
-    <a id="a_register" href="#register" class="a_menu w3-bar-item w3-border w3-button w3-red w3-hover-indigo a_menu">Register</a><br/>
-    <a id="a_login" href="#login" class="a_menu w3-bar-item w3-border w3-button w3-red w3-hover-indigo a_menu">Login</a><br/>
-    <a id="a_about" href="#about" class="a_menu w3-bar-item w3-border w3-button w3-red w3-hover-indigo">About</a><br/>
+    <a id="a_welcome" href="#welcome" class="a_menu w3-bar-item w3-border w3-button w3-grey w3-hover-indigo a_menu" style="height:25%">Welcome</a><br/>
+    <a id="a_register" href="#register" class="a_menu w3-bar-item w3-border w3-button w3-grey w3-hover-indigo a_menu" style="height:25%">Register</a><br/>
+    <a id="a_login" href="#login" class="a_menu w3-bar-item w3-border w3-button w3-grey w3-hover-indigo a_menu" style="height:25%">Login</a><br/>
+    <a id="a_about" href="#about" class="a_menu w3-bar-item w3-border w3-button w3-grey w3-hover-indigo" style="height:25%">About</a><br/>
     <script src="jQueryScripts.js" type="text/javascript"></script>
 </div>
 <div id="content">
@@ -38,97 +41,97 @@
         </script>
     </div>
 
-    <div id="register" hidden="true">
-        <form id="contact_register" method="post" action="">
+    <div id="register" hidden="true" class="form-style-8">
+        <h2>Register New Account</h2>
+        <form id="contact_register" method="post" >
             <!-- User Name -->
             <div>
-                <label for="contact_user_name">User Name:</label>
-                <input type="text" id="contact_user_name" name="user_name" class="reg_inp"></input>
+                <input type="text" id="contact_user_name" name="user_name" class="reg_inp" placeholder="User Name"></input>
                 <span class="error">Invalid input</span>
             </div>
             <!-- Password -->
             <div>
-                <label for="contact_password">Password:</label>
-                <input type="password" id="contact_password" name="password" class="reg_inp" title="Atleast 8 chars, only letters and numbers"></input>
+                <input type="password" id="contact_password" name="password"
+                       class="reg_inp" title="Atleast 8 chars, only letters and numbers"
+                       placeholder="Password"
+                ></input>
                 <span class="error">Invalid input</span>
             </div>
             <!-- First Name -->
             <div>
-                <label for="contact_first_name">First Name:</label>
-                <input type="text" id="contact_first_name" name="first_name" class="reg_inp" title="Only letters"></input>
+                <input type="text" id="contact_first_name" name="first_name"
+                       class="reg_inp" title="Only letters"
+                       placeholder="First Name"
+                ></input>
                 <span class="error">Invalid input</span>
             </div>
             <!-- Last Name -->
             <div>
-                <label for="contact_last_name">Last Name:</label>
-                <input type="text" id="contact_last_name" name="last_name" class="reg_inp" title="Only letters"></input>
+                <input type="text" id="contact_last_name" name="last_name"
+                       class="reg_inp" title="Only letters"
+                       placeholder="Last Name"
+                ></input>
                 <span class="error">Invalid input</span>
             </div>
             <!-- Email -->
             <div>
-                <label for="contact_email">Email:</label>
-                <input type="email" id="contact_email" name="email" class="reg_inp" placeholder="example@example.com"></input>
+                <input type="email" id="contact_email" name="email"
+                       class="reg_inp" placeholder="Email"
+                ></input>
                 <span class="error">Invalid input</span>
             </div>
             <!-- Birth Date -->
             <div>
-                <label for="contact_birthdate">Birth Date:</label>
-                <input type="date" id="contact_birthdate" name="birthdate" class="reg_inp"></input>
+                <input type="date" id="contact_birthdate"
+                       name="birthdate" class="reg_inp"
+                       placeholder="Birth Date"
+                ></input>
                 <span class="error">Invalid input</span>
             </div>
             <!-- Submit Button -->
-            <div id="contact_submit_reg">
-                <button type="submit">Submit</button>
-            </div>
+            <button id="contact_submit_reg" type="submit">Submit</button>
         </form>
         <script type="text/javascript" src="validation.js"></script>
         <script type="text/javascript" src="register_login.js"></script>
 
     </div>
 
-    <div id="settings" hidden="true">
-        <form id="contact_settings" method="post" action="">
+    <div id="settings" hidden="true" class="form-style-8">
+        <h2>Game Settings</h2>
+        <form id="contact_settings" method="post">
             <!-- right button -->
             <div>
-                <label for="contact_right_button">Right Button:</label>
-                <input type="text" id="contact_right_button" name="right_button" ></input>
+                <input type="text" id="contact_right_button" name="right_button" placeholder="Right Button"></input>
                 <span class="error">This field is required</span>
             </div>
             <!-- left button -->
             <div>
-                <label for="contact_left_button">Left Button:</label>
-                <input type="text" id="contact_left_button" name="left_button" ></input>
+                <input type="text" id="contact_left_button" name="left_button" placeholder="Left Button"></input>
                 <span class="error">This field is required</span>
             </div>
             <!-- up button -->
             <div>
-                <label for="contact_up_button">Up Button:</label>
-                <input type="text" id="contact_up_button" name="up_button" ></input>
+                <input type="text" id="contact_up_button" name="up_button" placeholder="Up Button"></input>
                 <span class="error">This field is required</span>
             </div>
             <!-- down button -->
             <div>
-                <label for="contact_down_button">Down Button:</label>
-                <input type="text" id="contact_down_button" name="down_button"></input>
+                <input type="text" id="contact_down_button" name="down_button" placeholder="Down Button"></input>
                 <span class="error">This field is required</span>
             </div>
             <!-- number of food -->
             <div>
-                <label for="contact_food">Food Amount:</label>
-                <input type="number" max="90" min="50" id="contact_food" name="food"></input>
-                <span class="error">This field is required</span>
+
             </div>
             <!-- color of 5 points -->
             <div>
                 <label for="contact_5_points">5 Points Food color:</label>
                 <input type="color" id="contact_5_points" name="5_points"></input>
                 <span class="error">This field is required</span>
-            </div>
-            <!-- color of 15 points -->
-            <div>
                 <label for="contact_15_points">15 Points Food color:</label>
                 <input type="color" id="contact_15_points" name="15_points"></input>
                 <span class="error">This field is required</span>
+
             </div>
             <!-- color of 25 points -->
             <div>
@@ -138,33 +141,30 @@
             </div>
             <!-- time to play -->
             <div>
-                <label for="contact_play_time">Time To Play:</label>
-                <input type="number" min="60" id="contact_play_time" name="play_time"></input>
+                <input type="number" min="60" id="contact_play_time" name="play_time" placeholder="Time To Play"></input>
+                <span class="error">This field is required</span>
+                <input type="number" max="90" min="50" id="contact_food" name="food" placeholder="Food Amount"></input>
+                <span class="error">This field is required</span>
+                <input type="number" max="3" min="1" id="contact_monsters" name="monsters" placeholder="Monsters Amount"></input>
                 <span class="error">This field is required</span>
             </div>
             <!-- number of monsters -->
             <div>
-                <label for="contact_monsters">Monsters Amount:</label>
-                <input type="number" max="3" min="1" id="contact_monsters" name="monsters"></input>
-                <span class="error">This field is required</span>
+
             </div>
             <!-- Submit Button -->
-            <div id="contact_submit_set">
-                <button type="submit">Submit</button>
-            </div>
-            <!-- Random Button -->
-            <div id="contact_random">
-                <button type="submit">Random</button>
+            <div>
+                <button id="contact_submit_set" type="submit">Submit</button>
+                <button id="contact_random" type="submit">Random</button>
             </div>
         </form>
     </div>
 
-    <div id="login" hidden="true">
+    <div id="login" hidden="true" class="form-style-8">
+        <h2>Log In to Your Account</h2>
         <form id="login_form" onsubmit="logIn()">
-            User name:</br>
-            <input id="username_login" type="text" name="userName" class="login_input"/><br>
-            Password:</br>
-            <input id="password_login" type="password" name="password" class="login_input"/><br>
+            <input id="username_login" type="text" name="userName" class="login_input" placeholder="User Name"/>
+            <input id="password_login" type="password" name="password" class="login_input" placeholder="Password"/>
             <input type="submit" value="Log in" onclick="logIn(); return false;"/>
         </form>
     </div>
