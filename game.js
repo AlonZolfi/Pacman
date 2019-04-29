@@ -85,11 +85,11 @@
         for (let i = 0; i <monsters ; i++) {
             enemyImg[i]=new Image();
             enemyImg[i].src = "monster"+i+".png";
-            enemy[i] = {speed:256};
+            enemy[i] = {speed:1000};
             var cellForMonster = findRandomEmptyCell(board);
             var xMonster =cellForMonster[0];
             var yMonster =cellForMonster[1];
-            if(!(board[xMonster][yMonster] === 4)) {
+            if(!(board[xMonster][yMonster] === 4 ||board[xMonster][yMonster] === 2)) {
                 enemy[i].x = xMonster;
                 enemy[i].y =yMonster;
             }
@@ -162,7 +162,7 @@
                     var thaMonsterImg = enemyImg[k];
                     var thaMonster = enemy[k];
                     if (i == thaMonster.x && j == thaMonster.y) {
-                        context.drawImage(thaMonsterImg, i, j, i + 60, j + 60);
+                        context.drawImage(thaMonsterImg, i * 60, j*60,60,60);
                     }
                 }
                 var center = new Object();
@@ -264,11 +264,11 @@
             var change = false;
             var xMonster = enemy[i].x;
             var yMonster = enemy[i].y;
-            /**if (xMonster == shape.i && yMonster==shape.j) {
+            if (xMonster == shape.i && yMonster==shape.j) {
                 window.clearInterval(interval);
                 window.alert("Achalta Ota!!!");
                 goTo("settings");
-            }**/
+            }
             if (!change && shape.i < xMonster && (xMonster > 0 && board[xMonster - 1][yMonster] !== 4)){
                 enemy[i].x = xMonster-1;
                 change=true;
