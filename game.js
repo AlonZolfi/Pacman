@@ -38,7 +38,7 @@
         pac_color = "yellow";
         var cnt = 100;
         var food_remain = food;
-        var food_remain_5 = Math.floor(food*0.6);8
+        var food_remain_5 = Math.floor(food*0.6);
         var food_remain_15 = Math.floor(food*0.3);
         var food_remain_25 = food-food_remain_5-food_remain_15;
         var pacman_remain = 1;

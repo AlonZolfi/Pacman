@@ -1,9 +1,7 @@
 $(document).ready(function() {
-
-
-    $('#contact_right_button').on('input', function() {
+    /*$('#contact_right_button').on('input', function(event) {
         var input=$(this);
-        var is_name=input.val();
+        var is_name = input.val();
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
     });
@@ -27,7 +25,7 @@ $(document).ready(function() {
         var is_name=input.val();
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
-    });
+    });*/
 
     $('#contact_food').on('input', function() {
         var input=$(this);
@@ -51,14 +49,17 @@ $(document).ready(function() {
     });
 
     $('#contact_5_points').on('input', function() {
+        var input=$(this);
         input.removeClass("invalid").addClass("valid");}
     );
 
     $('#contact_15_points').on('input', function() {
+        var input=$(this);
         input.removeClass("invalid").addClass("valid");}
     );
 
     $('#contact_25_points').on('input', function() {
+        var input=$(this);
         input.removeClass("invalid").addClass("valid");}
     );
 
@@ -107,7 +108,7 @@ $(document).ready(function() {
         return false;
     });
 
-        // need to valid the filds
+    // need to valid the filds
     <!-- After Form Submitted Validation-->
     $("#contact_submit_set").click(function(event){
         var form_data=$("#contact_settings").serializeArray();
@@ -127,8 +128,38 @@ $(document).ready(function() {
             goTo("game");
             setAllForGame();
             Start();
-
         }
         return false;
     });
+
+    $("#contact_right_button").keypress(function(event){
+        right = event.code;
+        $(this).val(right);
+        $(this).removeClass("invalid").addClass("valid");
+        event.preventDefault();
+    });
+    $("#contact_left_button").keypress(function(event){
+        left = event.code;
+        $(this).val(left);
+        $(this).removeClass("invalid").addClass("valid");
+        event.preventDefault();
+    });
+    $("#contact_up_button").keypress(function(event){
+        up = event.code;
+        $(this).val(up);
+        $(this).removeClass("invalid").addClass("valid");
+        event.preventDefault();
+    });
+    $("#contact_down_button").keypress(function(event){
+        down = event.code;
+        $(this).val(down);
+        $(this).removeClass("invalid").addClass("valid");
+        event.preventDefault();
+    });
 });
+
+
+
+
+
+
