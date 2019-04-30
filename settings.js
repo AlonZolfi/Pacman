@@ -27,11 +27,13 @@ $(document).ready(function() {
         else{input.removeClass("valid").addClass("invalid");}
     });*/
 
-    $('#contact_food').on('input', function() {
+    $('#contact_food').on('input', function(event) {
         var input=$(this);
         var is_name=input.val();
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
+    }).keypress(function (event) {
+        event.preventDefault();
     });
 
     $('#contact_play_time').on('input', function() {
@@ -39,6 +41,8 @@ $(document).ready(function() {
         var is_name=input.val();
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
+    }).keypress(function (event) {
+        event.preventDefault();
     });
 
     $('#contact_monsters').on('input', function() {
@@ -46,6 +50,8 @@ $(document).ready(function() {
         var is_name=input.val();
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
+    }).keypress(function (event) {
+        event.preventDefault();
     });
 
     $('#contact_5_points').on('input', function() {
@@ -72,7 +78,7 @@ $(document).ready(function() {
         return color;
     }
 
-    $("#contact_random").click(function (event) {
+    $("#contact_random").click(function(){
         var tmPright="ArrowRight";
         var tmPleft="ArrowLeft";
         var tmPup="ArrowUp";
@@ -86,12 +92,16 @@ $(document).ready(function() {
         var tmPmonsters=Math.ceil(x*(3-1)+1);
 
         $("#contact_right_button").val(tmPright);
+        right = 39;
         $("#contact_right_button").removeClass("invalid").addClass("valid");
         $("#contact_left_button").val(tmPleft);
+        left = 37;
         $("#contact_left_button").removeClass("invalid").addClass("valid");
         $("#contact_up_button").val(tmPup);
+        up = 38;
         $("#contact_up_button").removeClass("invalid").addClass("valid");
         $("#contact_down_button").val(tmPdown);
+        down = 40;
         $("#contact_down_button").removeClass("invalid").addClass("valid");
         $("#contact_food").val(tmPfood);
         $("#contact_food").removeClass("invalid").addClass("valid");
@@ -108,53 +118,111 @@ $(document).ready(function() {
         return false;
     });
 
-    // need to valid the filds
+    // need to valid the fields
+    function checkKeysAreDiff(keys_data) {
+        for (let i = 0; i < keys_data.length; i++) {
+            for (let j = 0; j < keys_data.length; j++) {
+                if( i!=j && keys_data[i].value == keys_data[j].value)
+                    return false;
+            }
+        }
+        return true;
+    }
+
     <!-- After Form Submitted Validation-->
     $("#contact_submit_set").click(function(event){
         var form_data=$("#contact_settings").serializeArray();
-        var error_free=true;
-        for (var input in form_data){
-            var element=$("#contact_"+form_data[input]['name']);
-            var valid=element.hasClass("valid");
-            var error_element=$("span", element.parent());
-            if (!valid){error_element.removeClass("error").addClass("error_show"); error_free=false;}
-            else{error_element.removeClass("error_show").addClass("error");}
+        var error_free;
+        if(!checkKeysAreDiff(form_data.slice(0,4)))
+            error_free=false;
+        else
+            error_free = true;
+        for (var input in form_data) {
+            var element = $("#contact_" + form_data[input]['name']);
+            var valid = element.hasClass("valid");
+            var error_element = $("span", element.parent());
+            if (!valid) {
+                error_element.removeClass("error").addClass("error_show");
+                error_free = false;
+            } else {
+                error_element.removeClass("error_show").addClass("error");
+            }
         }
-        if (!error_free){
+        if (!error_free) {
             event.preventDefault();
-        }
-        else{
+        } else {
             alert('No errors: Form will be submitted');
             goTo("game");
             setAllForGame();
             Start();
         }
+
         return false;
     });
 
-    $("#contact_right_button").keypress(function(event){
-        right = event.code;
-        $(this).val(right);
-        $(this).removeClass("invalid").addClass("valid");
-        event.preventDefault();
+    $("#contact_right_button").keydown(function(event) {
+        if (event.keyCode == 8 || event.keyCode == 46){
+            event.preventDefault();
+        }
+        else if (event.code != left && event.code!=up && event.code!=down) {
+            right = event.code;
+            $(this).val(right);
+            $(this).removeClass("invalid").addClass("valid");
+            event.preventDefault();
+        }
+        else {
+            alert("Don't use the same keys")
+            event.preventDefault();
+            (this).removeClass("valid").addClass("invalid");
+        }
     });
     $("#contact_left_button").keypress(function(event){
-        left = event.code;
-        $(this).val(left);
-        $(this).removeClass("invalid").addClass("valid");
-        event.preventDefault();
+        if (event.keyCode == 8 || event.keyCode == 46){
+            event.preventDefault();
+        }
+        else if (event.code != right && event.code!=up && event.code!=down) {
+            left = event.code;
+            $(this).val(left);
+            $(this).removeClass("invalid").addClass("valid");
+            event.preventDefault();
+        }
+        else {
+            alert("Don't use the same keys")
+            event.preventDefault();
+            (this).removeClass("valid").addClass("invalid");
+        }
     });
     $("#contact_up_button").keypress(function(event){
-        up = event.code;
-        $(this).val(up);
-        $(this).removeClass("invalid").addClass("valid");
-        event.preventDefault();
+        if (event.keyCode == 8 || event.keyCode == 46){
+            event.preventDefault();
+        }
+        else if (event.code != left && event.code!=right && event.code!=down) {
+            up = event.code;
+            $(this).val(up);
+            $(this).removeClass("invalid").addClass("valid");
+            event.preventDefault();
+        }
+        else {
+            alert("Don't use the same keys")
+            event.preventDefault();
+            (this).removeClass("valid").addClass("invalid");
+        }
     });
     $("#contact_down_button").keypress(function(event){
-        down = event.code;
-        $(this).val(down);
-        $(this).removeClass("invalid").addClass("valid");
-        event.preventDefault();
+        if (event.keyCode == 8 || event.keyCode == 46){
+            event.preventDefault();
+        }
+        else if (event.code != left && event.code!=up && event.code!=right) {
+            down = event.code;
+            $(this).val(down);
+            $(this).removeClass("invalid").addClass("valid");
+            event.preventDefault();
+        }
+        else {
+            alert("Don't use the same keys")
+            event.preventDefault();
+            (this).removeClass("valid").addClass("invalid");
+        }
     });
 });
 

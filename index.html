@@ -32,10 +32,7 @@
             function goTo(divName){
                 var divs = document.getElementById("content").children;
                 for(let item of divs){
-                    if(item.id === divName)
-                        item.hidden = false;
-                    else
-                        item.hidden = true;
+                    item.hidden = item.id !== divName;
                 }
             }
         </script>
@@ -101,7 +98,7 @@
         <form id="contact_settings" method="post">
             <!-- right button -->
             <div>
-                <input type="text" id="contact_right_button" name="right_button" placeholder="Right Button"></input>
+                <input type="text" id="contact_right_button" name="right_button" placeholder="Right Button" on></input>
                 <span class="error">This field is required</span>
             </div>
             <!-- left button -->
@@ -141,9 +138,9 @@
             </div>
             <!-- time to play -->
             <div>
-                <input type="number" min="60" id="contact_play_time" name="play_time" placeholder="Time To Play"></input>
+                <input type="number" min="60" id="contact_play_time" name="play_time" placeholder="Time To Play" ></input>
                 <span class="error">This field is required</span>
-                <input type="number" max="90" min="50" id="contact_food" name="food" placeholder="Food Amount"></input>
+                <input type="number" max="90" min="50" id="contact_food" name="food" placeholder="Food Amount" ></input>
                 <span class="error">This field is required</span>
                 <input type="number" max="3" min="1" id="contact_monsters" name="monsters" placeholder="Monsters Amount"></input>
                 <span class="error">This field is required</span>
