@@ -6,8 +6,9 @@ var pac_color;
 var start_time;
 var time_elapsed;
 var interval;
-var intervalTwo;
-var intervalThree;
+var intervalMonsters;
+var intervalBonus;
+var intervalTime;
 var right;
 var left;
 var up;
@@ -26,6 +27,10 @@ var locations = new Array(new Array(1,1),new Array(boardLnt,1),new Array(1,board
 var bonus;
 var bonusImg;
 var isBonus;
+var clock;
+var clockImg;
+var isClock;
+var degrees;
 
 function setAllForGame() {
     right = $("#contact_right_button").val();
@@ -49,15 +54,23 @@ function findRandomEmptyCell(board) {
         return [i, j];
     }
 function GetKeyPressed() {
-                if (keysDown[up])
-                    return 1;
-                if (keysDown[down])
-                    return 2;
-                if (keysDown[left])
-                    return 3;
-                if (keysDown[right])
-                    return 4;
-            }
+    if (keysDown[up]) {
+        degrees = (Math.PI/2*3);
+        return 1;
+    }
+    if (keysDown[down]) {
+        degrees = (Math.PI/2);
+        return 2;
+    }
+    if (keysDown[left]) {
+        degrees = Math.PI;
+        return 3;
+    }
+    if (keysDown[right]) {
+        degrees=0;
+        return 4;
+    }
+}
 function Draw() {
     context.clearRect(0, 0, canvas.width, canvas.height); //clean board
     lblScore.value = score;
@@ -70,12 +83,12 @@ function Draw() {
             center.y = j * 40 + 20;
             if (board[i][j] === 2) {
                 context.beginPath();
-                context.arc(center.x, center.y, 20, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
+                context.arc(center.x, center.y, 20, 0.15*Math.PI + degrees, 1.85*Math.PI + degrees); // half circle
                 context.lineTo(center.x, center.y);
                 context.fillStyle = pac_color; //color
                 context.fill();
                 context.beginPath();
-                context.arc(center.x + 5, center.y - 12, 2.5, 0, 2 * Math.PI); // circle
+                context.arc(center.x + 7.5, center.y - 7.5, 2, 0, 2 * Math.PI); // circle
                 context.fillStyle = "black"; //color
                 context.fill();
             } else if (board[i][j] === 25) {
@@ -109,6 +122,13 @@ function Draw() {
                 if (isBonus)
                     context.drawImage(bonusImg, i * 40, j * 40, 40, 40);
             }
+            if (i == clock.x && j == clock.y) {
+                if (isClock)
+                    context.drawImage(clockImg, i * 40, j * 40, 40, 40);
+                else{
+                    context.clearRect(i * 40, j * 40, 40, 40);
+                }
+            }
         }
     }
 }
@@ -136,23 +156,31 @@ function UpdatePosition() {
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = time - ((currentTime - start_time) / 1000);
-    if (score >= 20 && time_elapsed <= 10)
-        pac_color = "green";
+    if (time_elapsed<=60){
+        isClock = true;
+    }
     if (time_elapsed <= 0) {
         window.clearInterval(interval);
-        window.clearInterval(intervalTwo);
-        window.clearInterval(intervalThree);
-        window.alert("Time is up! LOSER!!!");
+        window.clearInterval(intervalMonsters);
+        window.clearInterval(intervalBonus);
+        window.clearInterval(intervalTime);
+        if (score<150) {
+            window.alert("You can do better");
+        }
+        else {
+            window.alert("We have a Winner!!!");
+        }
         goTo("settings");
     }
     var food_5 = Math.floor(food * 0.6);
     var food_15 = Math.floor(food * 0.3);
     var food_25 = food - food_5 - food_15;
-    if (score === food_5 * 5 + food_15 * 15 + food_25 * 25) {
+    if (score > food_5 * 5 + food_15 * 15 + food_25 * 25) {
         window.clearInterval(interval);
-        window.clearInterval(intervalTwo);
-        window.clearInterval(intervalThree);
-        window.alert("Game completed");
+        window.clearInterval(intervalMonsters);
+        window.clearInterval(intervalBonus);
+        window.clearInterval(intervalTime);
+        window.alert("We have a Winner!!!\n Great job!");
         goTo("settings");
     } else
         Draw();
@@ -170,10 +198,12 @@ function updateMonsters() {
             score-=10;
             lost=true;
             window.clearInterval(interval);
-            window.clearInterval(intervalTwo);
-            window.clearInterval(intervalThree);
+            window.clearInterval(intervalMonsters);
+            window.clearInterval(intervalBonus);
+            window.clearInterval(intervalTime);
             window.alert("You have "+pacman_remain+" more lives!");
-            Start();
+            board[shape.i][shape.j]=0;
+            continueGame();
         }
         else {
             var rand = Math.random();
@@ -205,9 +235,9 @@ function updateBonus() {
     var booleanDown = (yBonus < boardLnt + 1 && board[xBonus][yBonus + 1] !== 4);
     var booleanLeft = (xBonus > 0 && board[xBonus - 1][yBonus] !== 4);
     var booleanRight = (xBonus < boardLnt + 1 && board[xBonus + 1][yBonus] !== 4);
-    if (xBonus === shape.i && yBonus === shape.j) {
+    if (isBonus && xBonus === shape.i && yBonus === shape.j) {
         score += 50;
-        window.clearInterval(intervalThree);
+        window.clearInterval(intervalBonus);
         isBonus=false;
         window.alert("Great job! 50 point bonus for you!");
     } else {
@@ -225,10 +255,11 @@ function updateBonus() {
 function startNewGame(){
     score=0;
     pacman_remain=3;
+    isBonus=true;
+    isClock=false;
     Start();
 }
 function Start() {
-    isBonus=true;
     board = new Array();
     pac_color = "yellow";
     var cnt = boardLnt*boardLnt;
@@ -280,6 +311,25 @@ function Start() {
             }
         }
     }
+    while (food_remain > 0) {
+        var emptyCell = findRandomEmptyCell(board);
+        if(food_remain_25>0) {
+            board[emptyCell[0]][emptyCell[1]] = 25;
+            food_remain_25--;
+        }
+        else if(food_remain_15>0) {
+            board[emptyCell[0]][emptyCell[1]] = 15;
+            food_remain_15--;
+        }
+        else {
+            board[emptyCell[0]][emptyCell[1]] = 5;
+            food_remain_5--;
+        }
+        food_remain--;
+    }
+    continueGame();
+}
+function continueGame() {
     if (pacman_remain > 0){
         let cellForPacmen = findRandomEmptyCell(board);
         let xCell =cellForPacmen[0];
@@ -291,8 +341,10 @@ function Start() {
     }
     else{
         window.clearInterval(interval);
-        window.clearInterval(intervalTwo);
-        window.alert("No More Lives!\n You lost\n Your score is "+score+"!!!");
+        window.clearInterval(intervalMonsters);
+        window.clearInterval(intervalBonus);
+        window.clearInterval(intervalTime);
+        window.alert("You Lost!");
         goTo("settings");
         return;
     }
@@ -314,25 +366,13 @@ function Start() {
     bonus={};
     bonusImg = new Image();
     bonusImg.src = "bonus.png";
-    var emptyCell = findRandomEmptyCell(board);
-    bonus.x = emptyCell[0];
-    bonus.y =emptyCell[1];
-    while (food_remain > 0) {
-        var emptyCell = findRandomEmptyCell(board);
-        if(food_remain_25>0) {
-            board[emptyCell[0]][emptyCell[1]] = 25;
-            food_remain_25--;
-        }
-        else if(food_remain_15>0) {
-            board[emptyCell[0]][emptyCell[1]] = 15;
-            food_remain_15--;
-        }
-        else {
-            board[emptyCell[0]][emptyCell[1]] = 5;
-            food_remain_5--;
-        }
-        food_remain--;
-    }
+    bonus.x = boardLnt;
+    bonus.y =boardLnt;
+    clock = {};
+    clockImg = new Image();
+    clockImg.src = "clock.png";
+    clock.x = boardLnt/2;
+    clock.y = boardLnt/2;
     keysDown = {};
     addEventListener("keydown", function (e) {
         keysDown[e.code] = true;
@@ -341,9 +381,20 @@ function Start() {
         keysDown[e.code] = false;
     }, false);
     interval = setInterval(UpdatePosition, 100);
-    intervalTwo = setInterval(updateMonsters,200);
-    intervalThree = setInterval(updateBonus,200);
+    intervalMonsters = setInterval(updateMonsters,200);
+    intervalBonus = setInterval(updateBonus,200);
+    intervalTime = setInterval(updateTime,100);
 }
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
+}
+function updateTime() {
+    if (isClock && clock.x === shape.i && clock.y === shape.j) {
+        time_elapsed += 30;
+        lblTime.value = time_elapsed;
+        isClock=false;
+        window.alert("Great job! 30 more sec for you!");
+        window.clearInterval(intervalTime);
+        Draw();
+    }
 }
