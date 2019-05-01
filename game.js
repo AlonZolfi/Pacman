@@ -30,6 +30,9 @@ var isBonus;
 var clock;
 var clockImg;
 var isClock;
+var medicine;
+var medicineImg;
+var isMedicine;
 var degrees;
 
 function setAllForGame() {
@@ -129,6 +132,13 @@ function Draw() {
                     context.clearRect(i * 40, j * 40, 40, 40);
                 }
             }
+            if (i == medicine.x && j == medicine.y) {
+                if (isMedicine)
+                    context.drawImage(medicineImg, i * 40, j * 40, 40, 40);
+                else{
+                    context.clearRect(i * 40, j * 40, 40, 40);
+                }
+            }
         }
     }
 }
@@ -158,6 +168,7 @@ function UpdatePosition() {
     time_elapsed = time - ((currentTime - start_time) / 1000);
     if (time_elapsed<=60){
         isClock = true;
+        isMedicine = true;
     }
     if (time_elapsed <= 0) {
         window.clearInterval(interval);
@@ -231,10 +242,16 @@ function updateMonsters() {
 function updateBonus() {
     var xBonus = bonus.x;
     var yBonus = bonus.y;
+    var xmedicine = medicine.x;
+    var ymedicine = medicine.y;
     var booleanUp = (yBonus > 0 && board[xBonus][yBonus - 1] !== 4);
     var booleanDown = (yBonus < boardLnt + 1 && board[xBonus][yBonus + 1] !== 4);
     var booleanLeft = (xBonus > 0 && board[xBonus - 1][yBonus] !== 4);
     var booleanRight = (xBonus < boardLnt + 1 && board[xBonus + 1][yBonus] !== 4);
+    var mbooleanRight = (xmedicine < boardLnt + 1 && board[xmedicine + 1][ymedicine] !== 4);
+    var mbooleanUp = (ymedicine > 0 && board[xmedicine][ymedicine - 1] !== 4);
+    var mbooleanDown = (ymedicine < boardLnt + 1 && board[xmedicine][ymedicine + 1] !== 4);
+    var mbooleanLeft = (xmedicine > 0 && board[xmedicine - 1][ymedicine] !== 4);
     if (isBonus && xBonus === shape.i && yBonus === shape.j) {
         score += 50;
         window.clearInterval(intervalBonus);
@@ -251,41 +268,57 @@ function updateBonus() {
         else if (booleanRight)
             bonus.x = xBonus + 1;
     }
+    if (isMedicine && xmedicine === shape.i && ymedicine === shape.j) {
+        window.clearInterval(intervalMonsters);
+        intervalMonsters = setInterval(updateMonsters,500);
+        isMedicine=false;
+        window.alert("!");
+    } else {
+        if (rand === 1 && mbooleanUp)
+            medicine.y = ymedicine - 1;
+        else if (rand === 2 && mbooleanDown)
+            medicine.y = ymedicine + 1;
+        else if (rand === 3 && mbooleanLeft)
+            medicine.x = xmedicine - 1;
+        else if (mbooleanRight)
+            medicine.x = xmedicine + 1;
+    }
 }
 function startNewGame(){
     score=0;
     pacman_remain=3;
     isBonus=true;
     isClock=false;
+    isMedicine=false;
     Start();
 }
 function Start() {
     board = new Array();
     pac_color = "yellow";
-    var cnt = boardLnt*boardLnt;
+    var cnt = boardLnt * boardLnt;
     var food_remain = food;
-    var food_remain_5 = Math.floor(food*0.6);
-    var food_remain_15 = Math.floor(food*0.3);
+    var food_remain_5 = Math.floor(food * 0.6);
+    var food_remain_15 = Math.floor(food * 0.3);
     var food_remain_25 = food - food_remain_5 - food_remain_15;
     start_time = new Date();
     for (var i = 0; i < boardLnt + 2; i++) {
         board[i] = new Array();
         for (var j = 0; j < boardLnt + 2; j++) {
             if (i === 0 || j === 0 || i === boardLnt + 1 || j === boardLnt + 1 || (i === 1 && j === 3) ||
-                (i === 2 && j === 6)|| (i === 2 && j === 7)|| (i === 2 && j === 8)|| (i === 2 && j === 11)|| (i === 2 && j === 12)|| (i === 2 && j === 13)|| (i === 2 && j === 14)|| (i === 2 && j === 15) ||
-                (i === 3 && j === 2)|| (i === 3 && j === 3)|| (i === 3 && j === 4)|| (i === 3 && j === 5)|| (i === 3 && j === 6)|| (i === 3 && j === 13)|| (i === 3 && j === 15)||
-                (i === 4 && j === 2)|| (i === 4 && j === 6)|| (i === 4 && j === 9)|| (i === 4 && j === 10)|| (i === 4 && j === 11)|| (i === 4 && j === 13)|| (i === 4 && j === 15) ||
-                (i === 5 && j === 2)|| (i === 5 && j === 4)|| (i === 5 && j === 6)|| (i === 5 && j === 9)|| (i === 5 && j === 11)|| (i === 5 && j === 13)|| (i === 5 && j === 15) ||
-                (i === 6 && j === 2)|| (i === 6 && j === 4)|| (i === 6 && j === 6)|| (i === 6 && j === 9)|| (i === 6 && j === 11)|| (i === 6 && j === 13)|| (i === 6 && j === 15) ||
-                (i === 7 && j === 2)|| (i === 7 && j === 4)|| (i === 7 && j === 6)|| (i === 7 && j === 9)|| (i === 7 && j === 11)|| (i === 7 && j === 15) ||
-                (i === 8 && j === 4)|| (i === 8 && j === 6)|| (i === 8 && j === 9)|| (i === 8 && j === 11)|| (i === 8 && j === 15)||
-                (i === 9 && j === 2)||(i === 9 && j === 4)|| (i === 9 && j === 6)|| (i === 9 && j === 9)|| (i === 9 && j === 11)||(i === 9 && j === 12)||(i === 9 && j === 13)|| (i === 9 && j === 15)||
-                (i === 10 && j === 2)||(i === 10 && j === 4)|| (i === 10 && j === 6)|| (i === 10 && j === 8)|| (i === 10 && j === 9)||(i === 10 && j === 11)|| (i === 10 && j === 15)||
-                (i === 11 && j === 2)||(i === 11 && j === 4)|| (i === 11 && j === 6)|| (i === 11 && j === 8)||(i === 11 && j === 11)|| (i === 11 && j === 15)||
-                (i === 12 && j === 2)||(i === 12 && j === 4)|| (i === 12 && j === 6)|| (i === 12 && j === 8)||(i === 12 && j === 11)|| (i === 12 && j === 13)|| (i === 12 && j === 15)||
-                (i === 13 && j === 2)|| (i === 13 && j === 6)|| (i === 13 && j === 8)||(i === 13 && j === 11)|| (i === 13 && j === 13)|| (i === 13 && j === 15)||
-                (i === 14 && j === 2)|| (i === 14 && j === 3)|| (i === 14 && j === 4)||(i === 14 && j === 6)|| (i === 14 && j === 11)|| (i === 14 && j === 13)|| (i === 14 && j === 15)||
-                (i === 15 && j === 6)|| (i === 15 && j === 7)|| (i === 15 && j === 8)||(i === 15 && j === 9)|| (i === 15 && j === 11)|| (i === 15 && j === 13)|| (i === 15 && j === 15)
+                (i === 2 && j === 6) || (i === 2 && j === 7) || (i === 2 && j === 8) || (i === 2 && j === 11) || (i === 2 && j === 12) || (i === 2 && j === 13) || (i === 2 && j === 14) || (i === 2 && j === 15) ||
+                (i === 3 && j === 2) || (i === 3 && j === 3) || (i === 3 && j === 4) || (i === 3 && j === 5) || (i === 3 && j === 6) || (i === 3 && j === 13) || (i === 3 && j === 15) ||
+                (i === 4 && j === 2) || (i === 4 && j === 6) || (i === 4 && j === 9) || (i === 4 && j === 10) || (i === 4 && j === 11) || (i === 4 && j === 13) || (i === 4 && j === 15) ||
+                (i === 5 && j === 2) || (i === 5 && j === 4) || (i === 5 && j === 6) || (i === 5 && j === 9) || (i === 5 && j === 11) || (i === 5 && j === 13) || (i === 5 && j === 15) ||
+                (i === 6 && j === 2) || (i === 6 && j === 4) || (i === 6 && j === 6) || (i === 6 && j === 9) || (i === 6 && j === 11) || (i === 6 && j === 13) || (i === 6 && j === 15) ||
+                (i === 7 && j === 2) || (i === 7 && j === 4) || (i === 7 && j === 6) || (i === 7 && j === 9) || (i === 7 && j === 11) || (i === 7 && j === 15) ||
+                (i === 8 && j === 4) || (i === 8 && j === 6) || (i === 8 && j === 9) || (i === 8 && j === 11) || (i === 8 && j === 15) ||
+                (i === 9 && j === 2) || (i === 9 && j === 4) || (i === 9 && j === 6) || (i === 9 && j === 9) || (i === 9 && j === 11) || (i === 9 && j === 12) || (i === 9 && j === 13) || (i === 9 && j === 15) ||
+                (i === 10 && j === 2) || (i === 10 && j === 4) || (i === 10 && j === 6) || (i === 10 && j === 8) || (i === 10 && j === 9) || (i === 10 && j === 11) || (i === 10 && j === 15) ||
+                (i === 11 && j === 2) || (i === 11 && j === 4) || (i === 11 && j === 6) || (i === 11 && j === 8) || (i === 11 && j === 11) || (i === 11 && j === 15) ||
+                (i === 12 && j === 2) || (i === 12 && j === 4) || (i === 12 && j === 6) || (i === 12 && j === 8) || (i === 12 && j === 11) || (i === 12 && j === 13) || (i === 12 && j === 15) ||
+                (i === 13 && j === 2) || (i === 13 && j === 6) || (i === 13 && j === 8) || (i === 13 && j === 11) || (i === 13 && j === 13) || (i === 13 && j === 15) ||
+                (i === 14 && j === 2) || (i === 14 && j === 3) || (i === 14 && j === 4) || (i === 14 && j === 6) || (i === 14 && j === 11) || (i === 14 && j === 13) || (i === 14 && j === 15) ||
+                (i === 15 && j === 6) || (i === 15 && j === 7) || (i === 15 && j === 8) || (i === 15 && j === 9) || (i === 15 && j === 11) || (i === 15 && j === 13) || (i === 15 && j === 15)
             ) {
                 board[i][j] = 4;
             } else {
@@ -313,15 +346,13 @@ function Start() {
     }
     while (food_remain > 0) {
         var emptyCell = findRandomEmptyCell(board);
-        if(food_remain_25>0) {
+        if (food_remain_25 > 0) {
             board[emptyCell[0]][emptyCell[1]] = 25;
             food_remain_25--;
-        }
-        else if(food_remain_15>0) {
+        } else if (food_remain_15 > 0) {
             board[emptyCell[0]][emptyCell[1]] = 15;
             food_remain_15--;
-        }
-        else {
+        } else {
             board[emptyCell[0]][emptyCell[1]] = 5;
             food_remain_5--;
         }
@@ -329,17 +360,26 @@ function Start() {
     }
     continueGame();
 }
+function updateTime() {
+    if (isClock && clock.x === shape.i && clock.y === shape.j) {
+        time_elapsed += 30;
+        lblTime.value = time_elapsed;
+        isClock = false;
+        window.alert("Great job! 30 more sec for you!");
+        window.clearInterval(intervalTime);
+        Draw();
+    }
+}
 function continueGame() {
-    if (pacman_remain > 0){
+    if (pacman_remain > 0) {
         let cellForPacmen = findRandomEmptyCell(board);
-        let xCell =cellForPacmen[0];
-        let yCell =cellForPacmen[1];
-        board[xCell][yCell]=2;
+        let xCell = cellForPacmen[0];
+        let yCell = cellForPacmen[1];
+        board[xCell][yCell] = 2;
         shape.i = xCell;
         shape.j = yCell;
         pacman_remain--;
-    }
-    else{
+    } else {
         window.clearInterval(interval);
         window.clearInterval(intervalMonsters);
         window.clearInterval(intervalBonus);
@@ -350,7 +390,7 @@ function continueGame() {
     }
     enemyImg = new Array();
     enemy = new Array();
-    for (let i = 0; i <monsters; i++) {
+    for (let i = 0; i < monsters; i++) {
         enemyImg[i] = new Image();
         enemyImg[i].src = "monster" + i + ".png";
         enemy[i] = {};
@@ -363,16 +403,25 @@ function continueGame() {
         } else
             i--;
     }
-    bonus={};
+    //set bonus
+    bonus = {};
     bonusImg = new Image();
     bonusImg.src = "bonus.png";
     bonus.x = boardLnt;
-    bonus.y =boardLnt;
+    bonus.y = boardLnt;
+    //set medicine
+    var emptyCell = findRandomEmptyCell(board);
+    medicine = {};
+    medicineImg = new Image();
+    medicineImg.src = "medicine.png";
+    medicine.x = emptyCell[0];
+    medicine.y = emptyCell[1];
+    //set clock
     clock = {};
     clockImg = new Image();
     clockImg.src = "clock.png";
-    clock.x = boardLnt/2;
-    clock.y = boardLnt/2;
+    clock.x = boardLnt / 2;
+    clock.y = boardLnt / 2;
     keysDown = {};
     addEventListener("keydown", function (e) {
         keysDown[e.code] = true;
@@ -381,20 +430,10 @@ function continueGame() {
         keysDown[e.code] = false;
     }, false);
     interval = setInterval(UpdatePosition, 100);
-    intervalMonsters = setInterval(updateMonsters,200);
-    intervalBonus = setInterval(updateBonus,200);
-    intervalTime = setInterval(updateTime,100);
+    intervalMonsters = setInterval(updateMonsters, 200);
+    intervalBonus = setInterval(updateBonus, 200);
+    intervalTime = setInterval(updateTime, 100);
 }
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
-}
-function updateTime() {
-    if (isClock && clock.x === shape.i && clock.y === shape.j) {
-        time_elapsed += 30;
-        lblTime.value = time_elapsed;
-        isClock=false;
-        window.alert("Great job! 30 more sec for you!");
-        window.clearInterval(intervalTime);
-        Draw();
-    }
 }
