@@ -7,6 +7,7 @@ var start_time;
 var time_elapsed;
 var interval;
 var intervalTwo;
+var intervalThree;
 var right;
 var left;
 var up;
@@ -22,6 +23,9 @@ var enemyImg;
 var boardLnt = 16;
 var pacman_remain = 3;
 var locations = new Array(new Array(1,1),new Array(boardLnt,1),new Array(1,boardLnt));
+var bonus;
+var bonusImg;
+var isBonus;
 
 function setAllForGame() {
     right = $("#contact_right_button").val();
@@ -44,11 +48,6 @@ function findRandomEmptyCell(board) {
         }
         return [i, j];
     }
-
-
-            /**
-             * @return {number}
-             */
 function GetKeyPressed() {
                 if (keysDown[up])
                     return 1;
@@ -59,11 +58,11 @@ function GetKeyPressed() {
                 if (keysDown[right])
                     return 4;
             }
-
 function Draw() {
     context.clearRect(0, 0, canvas.width, canvas.height); //clean board
     lblScore.value = score;
     lblTime.value = time_elapsed;
+    lblLife.value = pacman_remain+1;
     for (var i = 0; i < boardLnt+2; i++) {
         for (var j = 0; j < boardLnt+2; j++) {
             var center = new Object();
@@ -104,12 +103,15 @@ function Draw() {
                 var thaMonsterImg = enemyImg[k];
                 var thaMonster = enemy[k];
                 if (i == thaMonster.x && j == thaMonster.y)
-                    context.drawImage(thaMonsterImg, i * 40, j*40,40,40);
+                    context.drawImage(thaMonsterImg, i * 40, j * 40, 40, 40);
+            }
+            if (i == bonus.x && j == bonus.y) {
+                if (isBonus)
+                    context.drawImage(bonusImg, i * 40, j * 40, 40, 40);
             }
         }
     }
 }
-
 function UpdatePosition() {
     board[shape.i][shape.j] = 0;
     var x = GetKeyPressed();
@@ -139,6 +141,7 @@ function UpdatePosition() {
     if (time_elapsed <= 0) {
         window.clearInterval(interval);
         window.clearInterval(intervalTwo);
+        window.clearInterval(intervalThree);
         window.alert("Time is up! LOSER!!!");
         goTo("settings");
     }
@@ -148,12 +151,12 @@ function UpdatePosition() {
     if (score === food_5 * 5 + food_15 * 15 + food_25 * 25) {
         window.clearInterval(interval);
         window.clearInterval(intervalTwo);
+        window.clearInterval(intervalThree);
         window.alert("Game completed");
         goTo("settings");
     } else
         Draw();
 }
-
 function updateMonsters() {
     var lost = false;
     for (let i = 0; i <monsters && !lost; i++) {
@@ -168,6 +171,7 @@ function updateMonsters() {
             lost=true;
             window.clearInterval(interval);
             window.clearInterval(intervalTwo);
+            window.clearInterval(intervalThree);
             window.alert("You have "+pacman_remain+" more lives!");
             Start();
         }
@@ -194,14 +198,37 @@ function updateMonsters() {
         }
     }
 }
-
+function updateBonus() {
+    var xBonus = bonus.x;
+    var yBonus = bonus.y;
+    var booleanUp = (yBonus > 0 && board[xBonus][yBonus - 1] !== 4);
+    var booleanDown = (yBonus < boardLnt + 1 && board[xBonus][yBonus + 1] !== 4);
+    var booleanLeft = (xBonus > 0 && board[xBonus - 1][yBonus] !== 4);
+    var booleanRight = (xBonus < boardLnt + 1 && board[xBonus + 1][yBonus] !== 4);
+    if (xBonus === shape.i && yBonus === shape.j) {
+        score += 50;
+        window.clearInterval(intervalThree);
+        isBonus=false;
+        window.alert("Great job! 50 point bonus for you!");
+    } else {
+        var rand = getRandomInt(4)
+        if (rand === 1 && booleanUp)
+            bonus.y = yBonus - 1;
+        else if (rand === 2 && booleanDown)
+            bonus.y = yBonus + 1;
+        else if (rand === 3 && booleanLeft)
+            bonus.x = xBonus - 1;
+        else if (booleanRight)
+            bonus.x = xBonus + 1;
+    }
+}
 function startNewGame(){
     score=0;
     pacman_remain=3;
     Start();
 }
-
 function Start() {
+    isBonus=true;
     board = new Array();
     pac_color = "yellow";
     var cnt = boardLnt*boardLnt;
@@ -284,6 +311,12 @@ function Start() {
         } else
             i--;
     }
+    bonus={};
+    bonusImg = new Image();
+    bonusImg.src = "bonus.png";
+    var emptyCell = findRandomEmptyCell(board);
+    bonus.x = emptyCell[0];
+    bonus.y =emptyCell[1];
     while (food_remain > 0) {
         var emptyCell = findRandomEmptyCell(board);
         if(food_remain_25>0) {
@@ -309,8 +342,8 @@ function Start() {
     }, false);
     interval = setInterval(UpdatePosition, 100);
     intervalTwo = setInterval(updateMonsters,200);
+    intervalThree = setInterval(updateBonus,200);
 }
-
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
