@@ -1,5 +1,5 @@
 var context = canvas.getContext("2d");
-var shape = new Object();
+var shape = {};
 var board;
 var score=0;
 var pac_color;
@@ -9,6 +9,7 @@ var interval;
 var intervalMonsters;
 var intervalBonus;
 var intervalTime;
+var intervalMedicine;
 var right;
 var left;
 var up;
@@ -23,7 +24,7 @@ var enemy;
 var enemyImg;
 var boardLnt = 16;
 var pacman_remain = 3;
-var locations = new Array(new Array(1,1),new Array(boardLnt,1),new Array(1,boardLnt));
+var locations = [[1,1],[boardLnt,1],[1,boardLnt]];
 var bonus;
 var bonusImg;
 var isBonus;
@@ -33,7 +34,8 @@ var isClock;
 var medicine;
 var medicineImg;
 var isMedicine;
-var degrees;
+var degrees=0;
+var ballsRemain;
 
 function setAllForGame() {
     right = $("#contact_right_button").val();
@@ -86,7 +88,7 @@ function Draw() {
             center.y = j * 40 + 20;
             if (board[i][j] === 2) {
                 context.beginPath();
-                context.arc(center.x, center.y, 20, 0.15*Math.PI + degrees, 1.85*Math.PI + degrees); // half circle
+                context.arc(center.x, center.y, 20, 0.125*Math.PI + degrees, 1.875*Math.PI + degrees); // half circle
                 context.lineTo(center.x, center.y);
                 context.fillStyle = pac_color; //color
                 context.fill();
@@ -118,28 +120,33 @@ function Draw() {
             for (let k = 0; k < monsters; k++) {
                 var thaMonsterImg = enemyImg[k];
                 var thaMonster = enemy[k];
-                if (i == thaMonster.x && j == thaMonster.y)
+                if (i === thaMonster.x && j === thaMonster.y)
                     context.drawImage(thaMonsterImg, i * 40, j * 40, 40, 40);
             }
-            if (i == bonus.x && j == bonus.y) {
+            if (i === bonus.x && j === bonus.y) {
                 if (isBonus)
                     context.drawImage(bonusImg, i * 40, j * 40, 40, 40);
             }
-            if (i == clock.x && j == clock.y) {
+            if (i === clock.x && j === clock.y) {
                 if (isClock)
                     context.drawImage(clockImg, i * 40, j * 40, 40, 40);
-                else{
-                    context.clearRect(i * 40, j * 40, 40, 40);
-                }
             }
-            if (i == medicine.x && j == medicine.y) {
+            if (i === medicine.x && j === medicine.y) {
                 if (isMedicine)
                     context.drawImage(medicineImg, i * 40, j * 40, 40, 40);
-                else{
-                    context.clearRect(i * 40, j * 40, 40, 40);
-                }
             }
         }
+    }
+}
+function updateTime() {
+    if (isClock) {
+        window.alert("Great job! 30 more sec for you!");
+        start_time += 30;
+        time_elapsed += 30;
+        lblTime.value = time_elapsed;
+        isClock = false;
+        window.clearTimeout(intervalTime);
+        Draw();
     }
 }
 function UpdatePosition() {
@@ -157,12 +164,18 @@ function UpdatePosition() {
     if (x === 4)
         if (shape.i < boardLnt + 1 && board[shape.i + 1][shape.j] !== 4)
             shape.i++;
-    if (board[shape.i][shape.j] === 5)
+    if (board[shape.i][shape.j] === 5) {
         score += 5;
-    if (board[shape.i][shape.j] === 15)
+        ballsRemain--;
+    }
+    if (board[shape.i][shape.j] === 15) {
         score += 15;
-    if (board[shape.i][shape.j] === 25)
+        ballsRemain--;
+    }
+    if (board[shape.i][shape.j] === 25) {
         score += 25;
+        ballsRemain--;
+    }
     board[shape.i][shape.j] = 2;
     var currentTime = new Date();
     time_elapsed = time - ((currentTime - start_time) / 1000);
@@ -170,11 +183,14 @@ function UpdatePosition() {
         isClock = true;
         isMedicine = true;
     }
+    if (clock.x === shape.i && clock.y === shape.j)
+        updateTime();
     if (time_elapsed <= 0) {
         window.clearInterval(interval);
         window.clearInterval(intervalMonsters);
         window.clearInterval(intervalBonus);
-        window.clearInterval(intervalTime);
+        window.clearTimeout(intervalTime);
+        window.clearTimeout(intervalMedicine);
         if (score<150) {
             window.alert("You can do better");
         }
@@ -183,14 +199,12 @@ function UpdatePosition() {
         }
         goTo("settings");
     }
-    var food_5 = Math.floor(food * 0.6);
-    var food_15 = Math.floor(food * 0.3);
-    var food_25 = food - food_5 - food_15;
-    if (score > food_5 * 5 + food_15 * 15 + food_25 * 25) {
+    if (ballsRemain===0) {
         window.clearInterval(interval);
         window.clearInterval(intervalMonsters);
         window.clearInterval(intervalBonus);
-        window.clearInterval(intervalTime);
+        window.clearTimeout(intervalTime);
+        window.clearTimeout(intervalMedicine);
         window.alert("We have a Winner!!!\n Great job!");
         goTo("settings");
     } else
@@ -211,7 +225,8 @@ function updateMonsters() {
             window.clearInterval(interval);
             window.clearInterval(intervalMonsters);
             window.clearInterval(intervalBonus);
-            window.clearInterval(intervalTime);
+            window.clearTimeout(intervalTime);
+            window.clearTimeout(intervalMedicine);
             window.alert("You have "+pacman_remain+" more lives!");
             board[shape.i][shape.j]=0;
             continueGame();
@@ -242,23 +257,17 @@ function updateMonsters() {
 function updateBonus() {
     var xBonus = bonus.x;
     var yBonus = bonus.y;
-    var xmedicine = medicine.x;
-    var ymedicine = medicine.y;
     var booleanUp = (yBonus > 0 && board[xBonus][yBonus - 1] !== 4);
     var booleanDown = (yBonus < boardLnt + 1 && board[xBonus][yBonus + 1] !== 4);
     var booleanLeft = (xBonus > 0 && board[xBonus - 1][yBonus] !== 4);
     var booleanRight = (xBonus < boardLnt + 1 && board[xBonus + 1][yBonus] !== 4);
-    var mbooleanRight = (xmedicine < boardLnt + 1 && board[xmedicine + 1][ymedicine] !== 4);
-    var mbooleanUp = (ymedicine > 0 && board[xmedicine][ymedicine - 1] !== 4);
-    var mbooleanDown = (ymedicine < boardLnt + 1 && board[xmedicine][ymedicine + 1] !== 4);
-    var mbooleanLeft = (xmedicine > 0 && board[xmedicine - 1][ymedicine] !== 4);
     if (isBonus && xBonus === shape.i && yBonus === shape.j) {
         score += 50;
         window.clearInterval(intervalBonus);
         isBonus=false;
         window.alert("Great job! 50 point bonus for you!");
     } else {
-        var rand = getRandomInt(4)
+        let rand = getRandomInt(4);
         if (rand === 1 && booleanUp)
             bonus.y = yBonus - 1;
         else if (rand === 2 && booleanDown)
@@ -268,21 +277,7 @@ function updateBonus() {
         else if (booleanRight)
             bonus.x = xBonus + 1;
     }
-    if (isMedicine && xmedicine === shape.i && ymedicine === shape.j) {
-        window.clearInterval(intervalMonsters);
-        intervalMonsters = setInterval(updateMonsters,500);
-        isMedicine=false;
-        window.alert("!");
-    } else {
-        if (rand === 1 && mbooleanUp)
-            medicine.y = ymedicine - 1;
-        else if (rand === 2 && mbooleanDown)
-            medicine.y = ymedicine + 1;
-        else if (rand === 3 && mbooleanLeft)
-            medicine.x = xmedicine - 1;
-        else if (mbooleanRight)
-            medicine.x = xmedicine + 1;
-    }
+
 }
 function startNewGame(){
     score=0;
@@ -296,6 +291,7 @@ function Start() {
     board = new Array();
     pac_color = "yellow";
     var cnt = boardLnt * boardLnt;
+    ballsRemain = food;
     var food_remain = food;
     var food_remain_5 = Math.floor(food * 0.6);
     var food_remain_15 = Math.floor(food * 0.3);
@@ -360,16 +356,6 @@ function Start() {
     }
     continueGame();
 }
-function updateTime() {
-    if (isClock && clock.x === shape.i && clock.y === shape.j) {
-        time_elapsed += 30;
-        lblTime.value = time_elapsed;
-        isClock = false;
-        window.alert("Great job! 30 more sec for you!");
-        window.clearInterval(intervalTime);
-        Draw();
-    }
-}
 function continueGame() {
     if (pacman_remain > 0) {
         let cellForPacmen = findRandomEmptyCell(board);
@@ -383,7 +369,8 @@ function continueGame() {
         window.clearInterval(interval);
         window.clearInterval(intervalMonsters);
         window.clearInterval(intervalBonus);
-        window.clearInterval(intervalTime);
+        window.clearTimeout(intervalTime);
+        window.clearTimeout(intervalMedicine);
         window.alert("You Lost!");
         goTo("settings");
         return;
@@ -432,8 +419,48 @@ function continueGame() {
     interval = setInterval(UpdatePosition, 100);
     intervalMonsters = setInterval(updateMonsters, 200);
     intervalBonus = setInterval(updateBonus, 200);
-    intervalTime = setInterval(updateTime, 100);
+    intervalTime = setTimeout(updateTime, 60000);
+    intervalMedicine = setTimeout(updateMedicine,6000);
 }
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
+}
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.text(minutes + ":" + seconds);
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+    }, 1000);
+}
+function updateMedicine() {
+    var xmedicine = medicine.x;
+    var ymedicine = medicine.y;
+    var mbooleanRight = (xmedicine < boardLnt + 1 && board[xmedicine + 1][ymedicine] !== 4);
+    var mbooleanUp = (ymedicine > 0 && board[xmedicine][ymedicine - 1] !== 4);
+    var mbooleanDown = (ymedicine < boardLnt + 1 && board[xmedicine][ymedicine + 1] !== 4);
+    var mbooleanLeft = (xmedicine > 0 && board[xmedicine - 1][ymedicine] !== 4);
+    if (isMedicine && xmedicine === shape.i && ymedicine === shape.j) {
+        window.clearInterval(intervalMonsters);
+        intervalMonsters = setInterval(updateMonsters,500);
+        window.clearTimeout(intervalMedicine);
+        window.alert("!");
+    } else {
+        if (rand === 1 && mbooleanUp)
+            medicine.y = ymedicine - 1;
+        else if (rand === 2 && mbooleanDown)
+            medicine.y = ymedicine + 1;
+        else if (rand === 3 && mbooleanLeft)
+            medicine.x = xmedicine - 1;
+        else if (mbooleanRight)
+            medicine.x = xmedicine + 1;
+    }
 }
