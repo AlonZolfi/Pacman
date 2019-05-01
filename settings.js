@@ -1,38 +1,10 @@
 $(document).ready(function() {
-    /*$('#contact_right_button').on('input', function(event) {
-        var input=$(this);
-        var is_name = input.val();
-        if(is_name){input.removeClass("invalid").addClass("valid");}
-        else{input.removeClass("valid").addClass("invalid");}
-    });
-
-    $('#contact_left_button').on('input', function() {
+    $('#contact_food').on('input', function() {
         var input=$(this);
         var is_name=input.val();
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
-    });
-
-    $('#contact_up_button').on('input', function() {
-        var input=$(this);
-        var is_name=input.val();
-        if(is_name){input.removeClass("invalid").addClass("valid");}
-        else{input.removeClass("valid").addClass("invalid");}
-    });
-
-    $('#contact_down_button').on('input', function() {
-        var input=$(this);
-        var is_name=input.val();
-        if(is_name){input.removeClass("invalid").addClass("valid");}
-        else{input.removeClass("valid").addClass("invalid");}
-    });*/
-
-    $('#contact_food').on('input', function(event) {
-        var input=$(this);
-        var is_name=input.val();
-        if(is_name){input.removeClass("invalid").addClass("valid");}
-        else{input.removeClass("valid").addClass("invalid");}
-    }).keypress(function (event) {
+    }).keydown(function (event) {
         event.preventDefault();
     });
 
@@ -41,7 +13,7 @@ $(document).ready(function() {
         var is_name=input.val();
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
-    }).keypress(function (event) {
+    }).keydown(function (event) {
         event.preventDefault();
     });
 
@@ -50,7 +22,7 @@ $(document).ready(function() {
         var is_name=input.val();
         if(is_name){input.removeClass("invalid").addClass("valid");}
         else{input.removeClass("valid").addClass("invalid");}
-    }).keypress(function (event) {
+    }).keydown(function (event) {
         event.preventDefault();
     });
 

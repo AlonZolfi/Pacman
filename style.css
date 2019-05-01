@@ -115,3 +115,8 @@ textarea{
 	height: 100%;
 	width: 6%;
 }
+
+canvas{
+	width: 50%;
+	height: 50%;
+}
