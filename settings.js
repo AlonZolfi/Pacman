@@ -154,7 +154,7 @@ $(document).ready(function() {
             alert('No errors: Form will be submitted');
             goTo("game");
             setAllForGame();
-            Start();
+            startNewGame();
         }
 
         return false;
