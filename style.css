@@ -25,6 +25,11 @@
 	width:90%;
 	height:80%;
 }
+#canvas{
+	position:absolute;
+	width:75%;
+	height:90%;
+}
 #footer
 {
 	background-color: yellow;
