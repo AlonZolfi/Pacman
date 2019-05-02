@@ -10,10 +10,3 @@ $(".a_menu").click(function(event){
             div_content[i].hidden = true;
     }
 });
-
-$(document).ready(function () {
-    var canvas = $("#canvas");
-    var canvasInDiv = $("#content");
-    canvas.width = canvasInDiv.width();
-    canvas.height = canvasInDiv.height();
-})
