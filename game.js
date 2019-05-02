@@ -37,6 +37,9 @@ var isMedicine;
 var degrees=0;
 var ballsRemain;
 var isOpen;
+var inYet = false;
+var returnMonsters;
+var noMonsters = false;
 
 function setAllForGame() {
     right = $("#contact_right_button").val();
@@ -60,22 +63,24 @@ function findRandomEmptyCell(board) {
         return [i, j];
     }
 function GetKeyPressed() {
+    var x;
     if (keysDown[up]) {
         degrees = (Math.PI/2*3);
-        return 1;
+        x= 1;
     }
     if (keysDown[down]) {
         degrees = (Math.PI/2);
-        return 2;
+        x= 2;
     }
     if (keysDown[left]) {
         degrees = Math.PI;
-        return 3;
+        x=3;
     }
     if (keysDown[right]) {
         degrees=0;
-        return 4;
+        x= 4;
     }
+    return x;
 }
 function Draw() {
     context.clearRect(0, 0, canvas.width, canvas.height); //clean board
@@ -87,7 +92,7 @@ function Draw() {
     let squareR = Math.min(squareW,squareH) / 2;
     for (var i = 0; i < boardLnt+2; i++) {
         for (var j = 0; j < boardLnt+2; j++) {
-            var center = new Object();
+            var center = {};
             center.x = i * squareH + squareH/2;
             center.y = j * squareW + squareW/2;
             if (board[i][j] === 2) {
@@ -137,25 +142,27 @@ function Draw() {
                 if (isBonus)
                     context.drawImage(bonusImg, i * squareH, j * squareW, squareH, squareW);
             }
-            if (i === clock.x && j === clock.y) {
-                if (isClock)
+            if (isClock) {
+                if (i === clock.x && j === clock.y) {
                     context.drawImage(clockImg, i * squareH, j * squareW, squareH, squareW);
+                }
             }
-            if (i === medicine.x && j === medicine.y) {
-                if (isMedicine)
+            if (isMedicine) {
+                if (i === medicine.x && j === medicine.y) {
                     context.drawImage(medicineImg, i * squareH, j * squareW, squareH, squareW);
+                }
             }
         }
     }
 }
 function updateTime() {
-    if (isClock) {
+    if (isClock && shape.i === clock.x && shape.j === clock.y) {
         window.alert("Great job! 30 more sec for you!");
-        time_elapsed += 30;
-        lblTime.value = time_elapsed;
+        time_pass -= 30;
         isClock = false;
+        clock.x = null;
+        clock.y = null;
         window.clearTimeout(intervalTime);
-        Draw();
     }
 }
 function UpdatePosition() {
@@ -188,9 +195,16 @@ function UpdatePosition() {
     }
     board[shape.i][shape.j] = 2;
     time_elapsed = time - time_pass;
-    if (time_elapsed<=60){
+    if (!inYet && time_elapsed<=60){
+        inYet = true;
         isClock = true;
         isMedicine = true;
+        creatClock();
+        creatMedicine();
+    }
+    if (noMonsters && time_elapsed < returnMonsters) {
+        noMonsters=false;
+        creatMonsters();
     }
     if (time_elapsed <= 0) {
         window.clearInterval(interval);
@@ -240,9 +254,9 @@ function updateMonsters() {
         }
         else {
             var rand = Math.random();
-            if (rand > 0.5 && shape.i < xMonster && booleanLeft)
+            if (rand > 0.5 && shape.i < xMonster && booleanLeft) {
                 enemy[i].x = xMonster - 1;
-            else if (shape.j < yMonster && booleanUp)
+            } else if (shape.j < yMonster && booleanUp)
                 enemy[i].y = yMonster - 1;
             else if (rand < 0.5 && shape.i > xMonster && booleanRight)
                 enemy[i].x = xMonster + 1;
@@ -269,22 +283,23 @@ function updateBonus() {
     var booleanLeft = (xBonus > 0 && board[xBonus - 1][yBonus] !== 4);
     var booleanRight = (xBonus < boardLnt + 1 && board[xBonus + 1][yBonus] !== 4);
     if (isBonus && xBonus === shape.i && yBonus === shape.j) {
+        bonus.x = null;
+        bonus.y = null;
         score += 50;
         window.clearInterval(intervalBonus);
         isBonus=false;
         window.alert("Great job! 50 point bonus for you!");
     } else {
         let rand = getRandomInt(4);
-        if (rand === 1 && booleanUp)
+        if (rand === 1 && booleanUp) {
             bonus.y = yBonus - 1;
-        else if (rand === 2 && booleanDown)
+        } else if (rand === 2 && booleanDown)
             bonus.y = yBonus + 1;
         else if (rand === 3 && booleanLeft)
             bonus.x = xBonus - 1;
         else if (booleanRight)
             bonus.x = xBonus + 1;
     }
-
 }
 function startNewGame(){
     score=0;
@@ -297,7 +312,7 @@ function startNewGame(){
     Start();
 }
 function Start() {
-    board = new Array();
+    board = [];
     pac_color = "yellow";
     var cnt = boardLnt * boardLnt;
     ballsRemain = food;
@@ -307,7 +322,7 @@ function Start() {
     var food_remain_25 = food - food_remain_5 - food_remain_15;
     start_time = new Date();
     for (var i = 0; i < boardLnt + 2; i++) {
-        board[i] = new Array();
+        board[i] = [];
         for (var j = 0; j < boardLnt + 2; j++) {
             if (i === 0 || j === 0 || i === boardLnt + 1 || j === boardLnt + 1 || (i === 1 && j === 3) ||
                 (i === 2 && j === 6) || (i === 2 && j === 7) || (i === 2 && j === 8) || (i === 2 && j === 11) || (i === 2 && j === 12) || (i === 2 && j === 13) || (i === 2 && j === 14) || (i === 2 && j === 15) ||
@@ -384,40 +399,13 @@ function continueGame() {
         goTo("settings");
         return;
     }
-    enemyImg = new Array();
-    enemy = new Array();
-    for (let i = 0; i < monsters; i++) {
-        enemyImg[i] = new Image();
-        enemyImg[i].src = "monster" + i + ".png";
-        enemy[i] = {};
-        let cellForMonster = locations[i];
-        let xMonster = cellForMonster[0];
-        let yMonster = cellForMonster[1];
-        if (!(board[xMonster][yMonster] === 4 || board[xMonster][yMonster] === 2)) {
-            enemy[i].x = xMonster;
-            enemy[i].y = yMonster;
-        } else
-            i--;
-    }
+    creatMonsters();
     //set bonus
     bonus = {};
     bonusImg = new Image();
     bonusImg.src = "bonus.png";
     bonus.x = boardLnt;
     bonus.y = boardLnt;
-    //set medicine
-    var emptyCell = findRandomEmptyCell(board);
-    medicine = {};
-    medicineImg = new Image();
-    medicineImg.src = "medicine.png";
-    medicine.x = emptyCell[0];
-    medicine.y = emptyCell[1];
-    //set clock
-    clock = {};
-    clockImg = new Image();
-    clockImg.src = "clock.png";
-    clock.x = boardLnt / 2;
-    clock.y = boardLnt / 2;
     keysDown = {};
     addEventListener("keydown", function (e) {
         keysDown[e.code] = true;
@@ -428,32 +416,73 @@ function continueGame() {
     interval = setInterval(UpdatePosition, 100);
     intervalMonsters = setInterval(updateMonsters, 200);
     intervalBonus = setInterval(updateBonus, 200);
+}
+function creatClock() {
+    clock = {};
+    clockImg = new Image();
+    clockImg.src = "clock.png";
+    clock.x = boardLnt / 2;
+    clock.y = boardLnt / 2;
     intervalTime = setInterval(updateTime, 200);
+}
+function creatMedicine() {
+    var emptyCell = findRandomEmptyCell(board);
+    medicine = {};
+    medicineImg = new Image();
+    medicineImg.src = "medicine.png";
+    medicine.x = emptyCell[0];
+    medicine.y = emptyCell[1];
     intervalMedicine = setInterval(updateMedicine,200);
 }
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 function updateMedicine() {
-    var xmedicine = medicine.x;
-    var ymedicine = medicine.y;
-    var mbooleanRight = (xmedicine < boardLnt + 1 && board[xmedicine + 1][ymedicine] !== 4);
-    var mbooleanUp = (ymedicine > 0 && board[xmedicine][ymedicine - 1] !== 4);
-    var mbooleanDown = (ymedicine < boardLnt + 1 && board[xmedicine][ymedicine + 1] !== 4);
-    var mbooleanLeft = (xmedicine > 0 && board[xmedicine - 1][ymedicine] !== 4);
+    let xmedicine = medicine.x;
+    let ymedicine = medicine.y;
+    let mbooleanRight = (xmedicine < boardLnt + 1 && board[xmedicine + 1][ymedicine] !== 4);
+    let mbooleanUp = (ymedicine > 0 && board[xmedicine][ymedicine - 1] !== 4);
+    let mbooleanDown = (ymedicine < boardLnt + 1 && board[xmedicine][ymedicine + 1] !== 4);
+    let mbooleanLeft = (xmedicine > 0 && board[xmedicine - 1][ymedicine] !== 4);
     if (isMedicine && xmedicine === shape.i && ymedicine === shape.j) {
-        window.clearInterval(intervalMonsters);
-        intervalMonsters = setInterval(updateMonsters,500);
+        medicine.x = null;
+        medicine.y = null;
+        noMonsters = true;
         window.clearInterval(intervalMedicine);
-        window.alert("!");
+        window.clearInterval(intervalMonsters);
+        returnMonsters = time_elapsed-10;
+        clearMonsters();
+        window.alert("You have 10 sec without monsters!!!");
     } else {
-        if (rand === 1 && mbooleanUp)
+        let rand = getRandomInt(4);
+        if (rand === 1 && mbooleanUp) {
             medicine.y = ymedicine - 1;
-        else if (rand === 2 && mbooleanDown)
+        } else if (rand === 2 && mbooleanDown)
             medicine.y = ymedicine + 1;
         else if (rand === 3 && mbooleanLeft)
             medicine.x = xmedicine - 1;
         else if (mbooleanRight)
             medicine.x = xmedicine + 1;
+    }
+}
+function creatMonsters() {
+    enemyImg = [];
+    enemy =[];
+    for (let i = 0; i < monsters; i++) {
+        enemyImg[i] = new Image();
+        enemyImg[i].src = "monster" + i + ".png";
+        enemy[i] = {};
+        let cellForMonster = locations[i];
+        let xMonster = cellForMonster[0];
+        let yMonster = cellForMonster[1];
+        enemy[i].x = xMonster;
+        enemy[i].y = yMonster;
+    }
+    intervalMonsters = setInterval(updateMonsters, 200);
+}
+function clearMonsters() {
+    for (let i = 0; i < monsters; i++) {
+        enemy[i].x = null;
+        enemy[i].y = null;
     }
 }
