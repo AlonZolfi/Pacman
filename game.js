@@ -162,7 +162,7 @@ function updateTime() {
         isClock = false;
         clock.x = null;
         clock.y = null;
-        window.clearTimeout(intervalTime);
+        window.clearInterval(intervalTime);
     }
 }
 function UpdatePosition() {
@@ -213,10 +213,10 @@ function UpdatePosition() {
         window.clearInterval(intervalTime);
         window.clearInterval(intervalMedicine);
         if (score<150) {
-            window.alert("You can do better");
+            window.alert("You can do better\n Your score is: "+score);
         }
         else {
-            window.alert("We have a Winner!!!");
+            window.alert("We have a Winner!!!\n Your score is: "+score);
         }
         goTo("settings");
     }
@@ -246,8 +246,8 @@ function updateMonsters() {
             window.clearInterval(interval);
             window.clearInterval(intervalMonsters);
             window.clearInterval(intervalBonus);
-            window.clearTimeout(intervalTime);
-            window.clearTimeout(intervalMedicine);
+            window.clearInterval(intervalTime);
+            window.clearInterval(intervalMedicine);
             window.alert("You have "+pacman_remain+" more lives!");
             board[shape.i][shape.j]=0;
             continueGame();
@@ -390,12 +390,12 @@ function continueGame() {
         shape.j = yCell;
         pacman_remain--;
     } else {
+        window.alert("You Lost!");
         window.clearInterval(interval);
         window.clearInterval(intervalMonsters);
         window.clearInterval(intervalBonus);
         window.clearInterval(intervalTime);
         window.clearInterval(intervalMedicine);
-        window.alert("You Lost!");
         goTo("settings");
         return;
     }
