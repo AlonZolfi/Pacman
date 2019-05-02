@@ -3,7 +3,7 @@ var shape = {};
 var board;
 var score=0;
 var pac_color;
-var start_time;
+var time_pass;
 var time_elapsed;
 var interval;
 var intervalMonsters;
@@ -36,6 +36,7 @@ var medicineImg;
 var isMedicine;
 var degrees=0;
 var ballsRemain;
+var isOpen;
 
 function setAllForGame() {
     right = $("#contact_right_button").val();
@@ -81,39 +82,48 @@ function Draw() {
     lblScore.value = score;
     lblTime.value = time_elapsed;
     lblLife.value = pacman_remain+1;
+    let squareH = canvas.height / (boardLnt+2);
+    let squareW = canvas.width / (boardLnt+2);
+    let squareR = Math.min(squareW,squareH) / 2;
     for (var i = 0; i < boardLnt+2; i++) {
         for (var j = 0; j < boardLnt+2; j++) {
             var center = new Object();
-            center.x = i * 40 + 20;
-            center.y = j * 40 + 20;
+            center.x = i * squareH + squareH/2;
+            center.y = j * squareW + squareW/2;
             if (board[i][j] === 2) {
                 context.beginPath();
-                context.arc(center.x, center.y, 20, 0.125*Math.PI + degrees, 1.875*Math.PI + degrees); // half circle
+                if (isOpen) {
+                    context.arc(center.x, center.y, squareR, 0.125 * Math.PI + degrees, 1.875 * Math.PI + degrees); // half circle
+                    isOpen=false;
+                }else {
+                    context.arc(center.x, center.y, squareR, 0, 2 * Math.PI);
+                    isOpen = true;
+                }
                 context.lineTo(center.x, center.y);
                 context.fillStyle = pac_color; //color
                 context.fill();
                 context.beginPath();
-                context.arc(center.x + 7.5, center.y - 7.5, 2, 0, 2 * Math.PI); // circle
+                context.arc(center.x + (squareW*0.125), center.y - (squareH*0.25), 2, 0, 2 * Math.PI); // circle
                 context.fillStyle = "black"; //color
                 context.fill();
             } else if (board[i][j] === 25) {
                 context.beginPath();
-                context.arc(center.x, center.y, 17.5, 0, 2 * Math.PI); // circle
+                context.arc(center.x, center.y, squareR*0.75, 0, 2 * Math.PI); // circle
                 context.fillStyle = points25; //color
                 context.fill();
             } else if (board[i][j] === 15) {
                 context.beginPath();
-                context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+                context.arc(center.x, center.y, squareR*0.625, 0, 2 * Math.PI); // circle
                 context.fillStyle = points15; //color
                 context.fill();
             } else if (board[i][j] === 5) {
                 context.beginPath();
-                context.arc(center.x, center.y, 12.5, 0, 2 * Math.PI); // circle
+                context.arc(center.x, center.y, squareR*0.5, 0, 2 * Math.PI); // circle
                 context.fillStyle = points5; //color
                 context.fill();
             } else if (board[i][j] === 4) {
                 context.beginPath();
-                context.rect(center.x - 20, center.y - 20, 40, 40);
+                context.rect(center.x - (squareW/2), center.y - (squareH/2), squareH, squareW);
                 context.fillStyle = "grey"; //color
                 context.fill();
             }
@@ -121,19 +131,19 @@ function Draw() {
                 var thaMonsterImg = enemyImg[k];
                 var thaMonster = enemy[k];
                 if (i === thaMonster.x && j === thaMonster.y)
-                    context.drawImage(thaMonsterImg, i * 40, j * 40, 40, 40);
+                    context.drawImage(thaMonsterImg, i * squareH, j * squareH, squareW, squareW);
             }
             if (i === bonus.x && j === bonus.y) {
                 if (isBonus)
-                    context.drawImage(bonusImg, i * 40, j * 40, 40, 40);
+                    context.drawImage(bonusImg, i * squareH, j * squareW, squareH, squareW);
             }
             if (i === clock.x && j === clock.y) {
                 if (isClock)
-                    context.drawImage(clockImg, i * 40, j * 40, 40, 40);
+                    context.drawImage(clockImg, i * squareH, j * squareW, squareH, squareW);
             }
             if (i === medicine.x && j === medicine.y) {
                 if (isMedicine)
-                    context.drawImage(medicineImg, i * 40, j * 40, 40, 40);
+                    context.drawImage(medicineImg, i * squareH, j * squareW, squareH, squareW);
             }
         }
     }
@@ -141,7 +151,6 @@ function Draw() {
 function updateTime() {
     if (isClock) {
         window.alert("Great job! 30 more sec for you!");
-        start_time += 30;
         time_elapsed += 30;
         lblTime.value = time_elapsed;
         isClock = false;
@@ -150,6 +159,7 @@ function updateTime() {
     }
 }
 function UpdatePosition() {
+    time_pass+=0.1;
     board[shape.i][shape.j] = 0;
     var x = GetKeyPressed();
     if (x === 1)
@@ -177,20 +187,17 @@ function UpdatePosition() {
         ballsRemain--;
     }
     board[shape.i][shape.j] = 2;
-    var currentTime = new Date();
-    time_elapsed = time - ((currentTime - start_time) / 1000);
+    time_elapsed = time - time_pass;
     if (time_elapsed<=60){
         isClock = true;
         isMedicine = true;
     }
-    if (clock.x === shape.i && clock.y === shape.j)
-        updateTime();
     if (time_elapsed <= 0) {
         window.clearInterval(interval);
         window.clearInterval(intervalMonsters);
         window.clearInterval(intervalBonus);
-        window.clearTimeout(intervalTime);
-        window.clearTimeout(intervalMedicine);
+        window.clearInterval(intervalTime);
+        window.clearInterval(intervalMedicine);
         if (score<150) {
             window.alert("You can do better");
         }
@@ -203,8 +210,8 @@ function UpdatePosition() {
         window.clearInterval(interval);
         window.clearInterval(intervalMonsters);
         window.clearInterval(intervalBonus);
-        window.clearTimeout(intervalTime);
-        window.clearTimeout(intervalMedicine);
+        window.clearInterval(intervalTime);
+        window.clearInterval(intervalMedicine);
         window.alert("We have a Winner!!!\n Great job!");
         goTo("settings");
     } else
@@ -285,6 +292,8 @@ function startNewGame(){
     isBonus=true;
     isClock=false;
     isMedicine=false;
+    isOpen=true;
+    time_pass=0;
     Start();
 }
 function Start() {
@@ -369,8 +378,8 @@ function continueGame() {
         window.clearInterval(interval);
         window.clearInterval(intervalMonsters);
         window.clearInterval(intervalBonus);
-        window.clearTimeout(intervalTime);
-        window.clearTimeout(intervalMedicine);
+        window.clearInterval(intervalTime);
+        window.clearInterval(intervalMedicine);
         window.alert("You Lost!");
         goTo("settings");
         return;
@@ -419,27 +428,11 @@ function continueGame() {
     interval = setInterval(UpdatePosition, 100);
     intervalMonsters = setInterval(updateMonsters, 200);
     intervalBonus = setInterval(updateBonus, 200);
-    intervalTime = setTimeout(updateTime, 60000);
-    intervalMedicine = setTimeout(updateMedicine,6000);
+    intervalTime = setInterval(updateTime, 200);
+    intervalMedicine = setInterval(updateMedicine,200);
 }
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
-}
-function startTimer(duration, display) {
-    var timer = duration, minutes, seconds;
-    setInterval(function () {
-        minutes = parseInt(timer / 60, 10);
-        seconds = parseInt(timer % 60, 10);
-
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.text(minutes + ":" + seconds);
-
-        if (--timer < 0) {
-            timer = duration;
-        }
-    }, 1000);
 }
 function updateMedicine() {
     var xmedicine = medicine.x;
@@ -451,7 +444,7 @@ function updateMedicine() {
     if (isMedicine && xmedicine === shape.i && ymedicine === shape.j) {
         window.clearInterval(intervalMonsters);
         intervalMonsters = setInterval(updateMonsters,500);
-        window.clearTimeout(intervalMedicine);
+        window.clearInterval(intervalMedicine);
         window.alert("!");
     } else {
         if (rand === 1 && mbooleanUp)
