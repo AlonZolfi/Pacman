@@ -60,7 +60,7 @@ function stopGame() {
     window.clearInterval(intervalBonus);
     window.clearInterval(intervalTime);
     window.clearInterval(intervalMedicine);
-    $("#music").stop();
+    document.getElementById("music").pause();
 }
 function findRandomEmptyCell(board) {
         var i = getRandomInt(boardLnt);
@@ -387,7 +387,7 @@ function Start() {
     continueGame();
 }
 function continueGame() {
-    $("#music").play();
+    document.getElementById("music").play();
     if (pacman_remain > 0) {
         let cellForPacmen = findRandomEmptyCell(board);
         let xCell = cellForPacmen[0];

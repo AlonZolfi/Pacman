@@ -14,8 +14,10 @@
     <img id="logo_img" src="logo.gif"/>
     Pacman Game
     Hila Kesem Hadad 204706006, Alon Zolfi 205846074
-
-
+    <audio id="music">
+        <source src="song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 </div>
 <div id="menu">
     <a id="a_welcome" href="#welcome" class="a_menu w3-bar-item w3-border w3-button w3-grey w3-hover-indigo a_menu" style="height:25%">Welcome</a><br/>
@@ -25,10 +27,7 @@
     <script src="jQueryScripts.js" type="text/javascript"></script>
 </div>
 <div id="content">
-    <audio controls autoplay id="music">
-        <source src="song.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
+
     <div id="welcome">
         <button id="b_register" onclick="goTo('register')">Register</button>
         <button id="b_login" onclick="goTo('login')">Login</button>
