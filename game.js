@@ -1,3 +1,4 @@
+var lost;
 var context = canvas.getContext("2d");
 var shape = {};
 var board;
@@ -37,9 +38,9 @@ var isMedicine;
 var degrees=0;
 var ballsRemain;
 var isOpen;
-var inYet = false;
+var inYet;
 var returnMonsters;
-var noMonsters = false;
+var noMonsters;
 
 function setAllForGame() {
     right = $("#contact_right_button").val();
@@ -232,7 +233,6 @@ function UpdatePosition() {
         Draw();
 }
 function updateMonsters() {
-    var lost = false;
     for (let i = 0; i <monsters && !lost; i++) {
         var xMonster = enemy[i].x;
         var yMonster = enemy[i].y;
@@ -242,7 +242,6 @@ function updateMonsters() {
         var booleanRight = (xMonster < boardLnt+1 && board[xMonster+ 1][yMonster] !== 4);
         if (xMonster === shape.i && yMonster===shape.j) {
             score-=10;
-            lost=true;
             window.clearInterval(interval);
             window.clearInterval(intervalMonsters);
             window.clearInterval(intervalBonus);
@@ -303,6 +302,9 @@ function updateBonus() {
 }
 function startNewGame(){
     score=0;
+    inYet = false
+    noMonsters=false;
+    lost=false;
     pacman_remain=3;
     isBonus=true;
     isClock=false;
@@ -389,7 +391,8 @@ function continueGame() {
         shape.i = xCell;
         shape.j = yCell;
         pacman_remain--;
-    } else {
+    } else{
+        lost=true;
         window.alert("You Lost!");
         window.clearInterval(interval);
         window.clearInterval(intervalMonsters);
