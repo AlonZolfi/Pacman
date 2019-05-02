@@ -71,11 +71,12 @@ textarea{
 #welcome{
 	width: 100%;
 	height: 100%;
-	position: relative;
+	position: absolute;
 	justify-content: center;
 	align-items: center;
 	background-image: url("background_welcome.gif");
-	background-size:contain;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 #b_register, #b_login {
