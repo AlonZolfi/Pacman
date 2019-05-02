@@ -64,16 +64,16 @@ $(document).ready(function() {
         var tmPmonsters=Math.ceil(x*(3-1)+1);
 
         $("#contact_right_button").val(tmPright);
-        right = 39;
+        user_right = 39;
         $("#contact_right_button").removeClass("invalid").addClass("valid");
         $("#contact_left_button").val(tmPleft);
-        left = 37;
+        user_left = 37;
         $("#contact_left_button").removeClass("invalid").addClass("valid");
         $("#contact_up_button").val(tmPup);
-        up = 38;
+        user_up = 38;
         $("#contact_up_button").removeClass("invalid").addClass("valid");
         $("#contact_down_button").val(tmPdown);
-        down = 40;
+        user_down = 40;
         $("#contact_down_button").removeClass("invalid").addClass("valid");
         $("#contact_food").val(tmPfood);
         $("#contact_food").removeClass("invalid").addClass("valid");
@@ -136,8 +136,8 @@ $(document).ready(function() {
         if (event.keyCode == 8 || event.keyCode == 46){
             event.preventDefault();
         }
-        else if (event.code != left && event.code!=up && event.code!=down) {
-            right = event.code;
+        else if (event.code != user_left && event.code!=user_up && event.code!=user_down) {
+            user_right = event.code;
             $(this).val(right);
             $(this).removeClass("invalid").addClass("valid");
             event.preventDefault();
@@ -152,8 +152,8 @@ $(document).ready(function() {
         if (event.keyCode == 8 || event.keyCode == 46){
             event.preventDefault();
         }
-        else if (event.code != right && event.code!=up && event.code!=down) {
-            left = event.code;
+        else if (event.code != user_right && event.code!=user_up && event.code!=user_down) {
+            user_left = event.code;
             $(this).val(left);
             $(this).removeClass("invalid").addClass("valid");
             event.preventDefault();
@@ -168,8 +168,8 @@ $(document).ready(function() {
         if (event.keyCode == 8 || event.keyCode == 46){
             event.preventDefault();
         }
-        else if (event.code != left && event.code!=right && event.code!=down) {
-            up = event.code;
+        else if (event.code != user_left && event.code!=user_right && event.code!=user_down) {
+            user_up = event.code;
             $(this).val(up);
             $(this).removeClass("invalid").addClass("valid");
             event.preventDefault();
@@ -184,8 +184,8 @@ $(document).ready(function() {
         if (event.keyCode == 8 || event.keyCode == 46){
             event.preventDefault();
         }
-        else if (event.code != left && event.code!=up && event.code!=right) {
-            down = event.code;
+        else if (event.code != user_left && event.code!=user_up && event.code!=user_right) {
+            user_down = event.code;
             $(this).val(down);
             $(this).removeClass("invalid").addClass("valid");
             event.preventDefault();

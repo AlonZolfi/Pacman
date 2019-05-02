@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    <!-- Real-time Validation -->
+    <!-- Real-user_time Validation -->
     <!--username can't be blank-->
     $("#contact_user_name").on('input', function() {
         var input=$(this);

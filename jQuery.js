@@ -567,7 +567,7 @@
                 push_native = arr.push,
                 push = arr.push,
                 slice = arr.slice,
-                // Use a stripped-down indexOf as it's faster than native
+                // Use a stripped-user_down indexOf as it's faster than native
                 // https://jsperf.com/thor-indexof-vs-for/5
                 indexOf = function( list, elem ) {
                     var i = 0,
@@ -1140,7 +1140,7 @@
 
                 // Support: IE<10
                 // Check if getElementById returns elements by name
-                // The broken getElementById methods don't pick up programmatically-set names,
+                // The broken getElementById methods don't pick user_up programmatically-set names,
                 // so use a roundabout getElementsByName test
                 support.getById = assert(function( el ) {
                     docElem.appendChild( el ).id = expando;
@@ -1252,7 +1252,7 @@
                 // qSa(:focus) reports false when true (Chrome 21)
                 // We allow this because of a bug in IE8/9 that throws an error
                 // whenever `document.activeElement` is accessed on an iframe
-                // So, we allow :focus to pass through QSA all the time to avoid the IE error
+                // So, we allow :focus to pass through QSA all the user_time to avoid the IE error
                 // See https://bugs.jquery.com/ticket/13378
                 rbuggyQSA = [];
 
@@ -1326,7 +1326,7 @@
                         }
 
                         // Support: IE9-11+
-                        // IE's :disabled selector does not pick up the children of disabled fieldsets
+                        // IE's :disabled selector does not pick user_up the children of disabled fieldsets
                         docElem.appendChild( el ).disabled = true;
                         if ( el.querySelectorAll(":disabled").length !== 2 ) {
                             rbuggyQSA.push( ":enabled", ":disabled" );
@@ -1472,7 +1472,7 @@
                             bp.unshift( cur );
                         }
 
-                        // Walk down the tree looking for a discrepancy
+                        // Walk user_down the tree looking for a discrepancy
                         while ( ap[i] === bp[i] ) {
                             i++;
                         }
@@ -2657,7 +2657,7 @@
                         if ( !context ) {
                             return results;
 
-                            // Precompiled matchers will still verify ancestry, so step up a level
+                            // Precompiled matchers will still verify ancestry, so step user_up a level
                         } else if ( compiled ) {
                             context = context.parentNode;
                         }
@@ -2665,7 +2665,7 @@
                         selector = selector.slice( tokens.shift().value.length );
                     }
 
-                    // Fetch a seed set for right-to-left matching
+                    // Fetch a seed set for user_right-to-user_left matching
                     i = matchExpr["needsContext"].test( selector ) ? 0 : tokens.length;
                     while ( i-- ) {
                         token = tokens[i];
@@ -2707,7 +2707,7 @@
                 return results;
             };
 
-// One-time assignments
+// One-user_time assignments
 
 // Sort stability
             support.sortStable = expando.split("").sort( sortOrder ).join("") === expando;
@@ -3237,7 +3237,7 @@
  *	once:			will ensure the callback list can only be fired once (like a Deferred)
  *
  *	memory:			will keep track of previous values and will call any callback added
- *					after the list has been fired right away with the latest "memorized"
+ *					after the list has been fired user_right away with the latest "memorized"
  *					values (like a Deferred)
  *
  *	unique:			will ensure a callback can only be added once (no duplicate in the list)
@@ -3305,7 +3305,7 @@
 
                 firing = false;
 
-                // Clean up if we're done firing for good
+                // Clean user_up if we're done firing for good
                 if ( locked ) {
 
                     // Keep an empty list if we have data for future add calls
@@ -3836,7 +3836,7 @@
     jQuery.Deferred.exceptionHook = function( error, stack ) {
 
         // Support: IE 8 - 9 only
-        // Console exists when dev tools are open, which can happen at any time
+        // Console exists when dev tools are open, which can happen at any user_time
         if ( window.console && window.console.warn && error && rerrorNames.test( error.name ) ) {
             window.console.warn( "jQuery.Deferred exception: " + error.message, error.stack, stack );
         }
@@ -3863,7 +3863,7 @@
             .then( fn )
 
             // Wrap jQuery.readyException in a function so that the lookup
-            // happens at the time of error handling instead of callback
+            // happens at the user_time of error handling instead of callback
             // registration.
             .catch( function( error ) {
                 jQuery.readyException( error );
@@ -4357,7 +4357,7 @@
                 type = ( type || "fx" ) + "queue";
                 queue = dataPriv.get( elem, type );
 
-                // Speed up dequeue by getting out quickly if this is just a lookup
+                // Speed user_up dequeue by getting out quickly if this is just a lookup
                 if ( data ) {
                     if ( !queue || Array.isArray( data ) ) {
                         queue = dataPriv.access( elem, type, jQuery.makeArray( data ) );
@@ -4394,7 +4394,7 @@
                     queue.unshift( "inprogress" );
                 }
 
-                // Clear up the last queue stop function
+                // Clear user_up the last queue stop function
                 delete hooks.stop;
                 fn.call( elem, next, hooks );
             }
@@ -4812,7 +4812,7 @@
                     wrap = wrapMap[ tag ] || wrapMap._default;
                     tmp.innerHTML = wrap[ 1 ] + jQuery.htmlPrefilter( elem ) + wrap[ 2 ];
 
-                    // Descend through wrappers to the right content
+                    // Descend through wrappers to the user_right content
                     j = wrap[ 0 ];
                     while ( j-- ) {
                         tmp = tmp.lastChild;
@@ -5016,7 +5016,7 @@
                 selector = handleObjIn.selector;
             }
 
-            // Ensure that invalid selectors throw exceptions at attach time
+            // Ensure that invalid selectors throw exceptions at attach user_time
             // Evaluate against documentElement in case elem is a non-element node (e.g., document)
             if ( selector ) {
                 jQuery.find.matchesSelector( documentElement, selector );
@@ -5510,8 +5510,8 @@
             this.originalEvent = src;
             this.type = src.type;
 
-            // Events bubbling up the document may have been marked as prevented
-            // by a handler lower down the tree; reflect the correct value.
+            // Events bubbling user_up the document may have been marked as prevented
+            // by a handler lower user_down the tree; reflect the correct value.
             this.isDefaultPrevented = src.defaultPrevented ||
             src.defaultPrevented === undefined &&
 
@@ -5628,7 +5628,7 @@
                 return event.charCode != null ? event.charCode : event.keyCode;
             }
 
-            // Add which for click: 1 === left; 2 === middle; 3 === right
+            // Add which for click: 1 === user_left; 2 === middle; 3 === user_right
             if ( !event.which && button !== undefined && rmouseEvent.test( event.type ) ) {
                 if ( button & 1 ) {
                     return 1;
@@ -5676,7 +5676,7 @@
         };
     } );
 
-// Create mouseenter/leave events using mouseover/out and event-time checks
+// Create mouseenter/leave events using mouseover/out and event-user_time checks
 // so that event delegation works in jQuery.
 // Do the same for pointerenter/pointerleave and pointerover/pointerout
 //
@@ -5701,7 +5701,7 @@
                     handleObj = event.handleObj;
 
                 // For mouseenter/leave call the handler if related is outside the target.
-                // NB: No relatedTarget if the mouse left/entered the browser window
+                // NB: No relatedTarget if the mouse user_left/entered the browser window
                 if ( !related || ( related !== target && !jQuery.contains( target, related ) ) ) {
                     event.type = handleObj.origType;
                     ret = handleObj.handler.apply( this, arguments );
@@ -5890,7 +5890,7 @@
                 hasScripts = scripts.length;
 
                 // Use the original fragment for the last item
-                // instead of the first because it can end up
+                // instead of the first because it can end user_up
                 // being emptied incorrectly in certain situations (#8070).
                 for ( ; i < l; i++ ) {
                     node = fragment;
@@ -6235,7 +6235,7 @@
     ( function() {
 
         // Executing both pixelPosition & boxSizingReliable tests require only one layout
-        // so they're executed at the same time to save the second computation.
+        // so they're executed at the same user_time to save the second computation.
         function computeStyleTests() {
 
             // This is a singleton, we need to execute it only once
@@ -6243,7 +6243,7 @@
                 return;
             }
 
-            container.style.cssText = "position:absolute;left:-11111px;width:60px;" +
+            container.style.cssText = "position:absolute;user_left:-11111px;width:60px;" +
                 "margin-top:1px;padding:0;border:0";
             div.style.cssText =
                 "position:relative;display:block;box-sizing:border-box;overflow:scroll;" +
@@ -6508,7 +6508,7 @@
         if ( !isBorderBox && computedVal >= 0 ) {
 
             // offsetWidth/offsetHeight is a rounded sum of content, padding, scroll gutter, and border
-            // Assuming integer scroll gutter, subtract the rest and round down
+            // Assuming integer scroll gutter, subtract the rest and round user_down
             delta += Math.max( 0, Math.ceil(
                 elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ] -
                 computedVal -
@@ -6644,13 +6644,13 @@
                 return;
             }
 
-            // Make sure that we're working with the right name
+            // Make sure that we're working with the user_right name
             var ret, type, hooks,
                 origName = camelCase( name ),
                 isCustomProp = rcustomProp.test( name ),
                 style = elem.style;
 
-            // Make sure that we're working with the right name. We don't
+            // Make sure that we're working with the user_right name. We don't
             // want to query the value if it is a CSS custom property
             // since they are user-defined.
             if ( !isCustomProp ) {
@@ -6719,7 +6719,7 @@
                 origName = camelCase( name ),
                 isCustomProp = rcustomProp.test( name );
 
-            // Make sure that we're working with the right name. We don't
+            // Make sure that we're working with the user_right name. We don't
             // want to modify the value if it is a CSS custom property
             // since they are user-defined.
             if ( !isCustomProp ) {
@@ -8384,7 +8384,7 @@
                 return;
             }
 
-            // focus/blur morphs to focusin/out; ensure we're not firing them right now
+            // focus/blur morphs to focusin/out; ensure we're not firing them user_right now
             if ( rfocusMorph.test( type + jQuery.event.triggered ) ) {
                 return;
             }
@@ -8410,7 +8410,7 @@
                 new RegExp( "(^|\\.)" + namespaces.join( "\\.(?:.*\\.|)" ) + "(\\.|$)" ) :
                 null;
 
-            // Clean up the event in case it is being reused
+            // Clean user_up the event in case it is being reused
             event.result = undefined;
             if ( !event.target ) {
                 event.target = elem;
@@ -8428,7 +8428,7 @@
             }
 
             // Determine event propagation path in advance, per W3C events spec (#9951)
-            // Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
+            // Bubble user_up to document, then to window; watch for a global ownerDocument var (#9724)
             if ( !onlyHandlers && !special.noBubble && !isWindow( elem ) ) {
 
                 bubbleType = special.delegateType || type;
@@ -8760,7 +8760,7 @@
 	 *    - AFTER param serialization (s.data is a string if s.processData is true)
 	 * 3) key is the dataType
 	 * 4) the catchall symbol "*" can be used
-	 * 5) execution will start with transport dataType and THEN continue down to "*" if needed
+	 * 5) execution will start with transport dataType and THEN continue user_down to "*" if needed
 	 */
         prefilters = {},
 
@@ -8859,7 +8859,7 @@
     }
 
     /* Handles responses to an ajax request:
- * - finds the right dataType (mediates between content-type and expected dataType)
+ * - finds the user_right dataType (mediates between content-type and expected dataType)
  * - returns the corresponding response
  */
     function ajaxHandleResponses( s, jqXHR, responses ) {
@@ -9971,7 +9971,7 @@
                 responseContainer = arguments;
             };
 
-            // Clean-up function (fires after converters)
+            // Clean-user_up function (fires after converters)
             jqXHR.always( function() {
 
                 // If previous value didn't exist - remove it
@@ -10115,7 +10115,7 @@
 
                 self.html( selector ?
 
-                    // If a selector was specified, locate the right elements in a dummy div
+                    // If a selector was specified, locate the user_right elements in a dummy div
                     // Exclude scripts to avoid IE 'Permission Denied' errors
                     jQuery( "<div>" ).append( jQuery.parseHTML( responseText ) ).find( selector ) :
 
@@ -10171,19 +10171,19 @@
                 curElem = jQuery( elem ),
                 props = {};
 
-            // Set position first, in-case top/left are set even on static elem
+            // Set position first, in-case top/user_left are set even on static elem
             if ( position === "static" ) {
                 elem.style.position = "relative";
             }
 
             curOffset = curElem.offset();
             curCSSTop = jQuery.css( elem, "top" );
-            curCSSLeft = jQuery.css( elem, "left" );
+            curCSSLeft = jQuery.css( elem, "user_left" );
             calculatePosition = ( position === "absolute" || position === "fixed" ) &&
                 ( curCSSTop + curCSSLeft ).indexOf( "auto" ) > -1;
 
             // Need to be able to calculate position if either
-            // top or left is auto and position is either absolute or fixed
+            // top or user_left is auto and position is either absolute or fixed
             if ( calculatePosition ) {
                 curPosition = curElem.position();
                 curTop = curPosition.top;
@@ -10356,12 +10356,12 @@
     } );
 
 // Support: Safari <=7 - 9.1, Chrome <=37 - 49
-// Add the top/left cssHooks using jQuery.fn.position
+// Add the top/user_left cssHooks using jQuery.fn.position
 // Webkit bug: https://bugs.webkit.org/show_bug.cgi?id=29084
 // Blink bug: https://bugs.chromium.org/p/chromium/issues/detail?id=589347
-// getComputedStyle returns percent when specified for top/left/bottom/right;
+// getComputedStyle returns percent when specified for top/user_left/bottom/user_right;
 // rather than make the css module depend on the offset module, just check for it here
-    jQuery.each( [ "top", "left" ], function( i, prop ) {
+    jQuery.each( [ "top", "user_left" ], function(i, prop ) {
         jQuery.cssHooks[ prop ] = addGetHookIf( support.pixelPosition,
             function( elem, computed ) {
                 if ( computed ) {
@@ -10470,7 +10470,7 @@
 // Bind a function to a context, optionally partially applying any
 // arguments.
 // jQuery.proxy is deprecated to promote standards (specifically Function#bind)
-// However, it is not slated for removal any time soon
+// However, it is not slated for removal any user_time soon
     jQuery.proxy = function( fn, context ) {
         var tmp, args, proxy;
 
