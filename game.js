@@ -54,6 +54,14 @@ function setAllForGame() {
     time = $("#contact_play_time").val();
     monsters = $("#contact_monsters").val();
 }
+function stopGame() {
+    window.clearInterval(intervalGame);
+    window.clearInterval(intervalMonsters);
+    window.clearInterval(intervalBonus);
+    window.clearInterval(intervalTime);
+    window.clearInterval(intervalMedicine);
+    $("#music").stop();
+}
 function findRandomEmptyCell(board) {
         var i = getRandomInt(boardLnt);
         var j = getRandomInt(boardLnt);
@@ -208,11 +216,7 @@ function UpdatePosition() {
         creatMonsters();
     }
     if (time_elapsed <= 0) {
-        window.clearInterval(intervalGame);
-        window.clearInterval(intervalMonsters);
-        window.clearInterval(intervalBonus);
-        window.clearInterval(intervalTime);
-        window.clearInterval(intervalMedicine);
+        stopGame();
         if (score<150) {
             window.alert("You can do better\n Your score is: "+score);
         }
@@ -222,11 +226,7 @@ function UpdatePosition() {
         goTo("settings");
     }
     if (ballsRemain===0) {
-        window.clearInterval(intervalGame);
-        window.clearInterval(intervalMonsters);
-        window.clearInterval(intervalBonus);
-        window.clearInterval(intervalTime);
-        window.clearInterval(intervalMedicine);
+        stopGame();
         window.alert("We have a Winner!!!\n Great job!");
         goTo("settings");
     } else
@@ -242,11 +242,7 @@ function updateMonsters() {
         var booleanRight = (xMonster < boardLnt+1 && board[xMonster+ 1][yMonster] !== 4);
         if (xMonster === shape.i && yMonster===shape.j) {
             score -= 10;
-            window.clearInterval(intervalGame);
-            window.clearInterval(intervalMonsters);
-            window.clearInterval(intervalBonus);
-            window.clearInterval(intervalTime);
-            window.clearInterval(intervalMedicine);
+            stopGame();
             if(isClock) {
                 clock.x = null;
                 clock.y = null;
@@ -391,6 +387,7 @@ function Start() {
     continueGame();
 }
 function continueGame() {
+    $("#music").play();
     if (pacman_remain > 0) {
         let cellForPacmen = findRandomEmptyCell(board);
         let xCell = cellForPacmen[0];
@@ -406,11 +403,7 @@ function continueGame() {
     } else{
         lost=true;
         window.alert("You Lost!");
-        window.clearInterval(intervalGame);
-        window.clearInterval(intervalMonsters);
-        window.clearInterval(intervalBonus);
-        window.clearInterval(intervalTime);
-        window.clearInterval(intervalMedicine);
+        stopGame();
         goTo("settings");
         return;
     }

@@ -90,6 +90,10 @@ textarea{
 	display: inline-block;
 }
 
+#music{
+	visibility: hidden;
+}
+
 #b_register:hover, #b_login:hover {
 	color: #404040 !important;
 	font-weight: 700 !important;
