@@ -136,7 +136,7 @@ function Draw() {
                 var thaMonsterImg = enemyImg[k];
                 var thaMonster = enemy[k];
                 if (i === thaMonster.x && j === thaMonster.y)
-                    context.drawImage(thaMonsterImg, i * squareH, j * squareH, squareW, squareW);
+                    context.drawImage(thaMonsterImg, i * squareH, j * squareW, squareH, squareW);
             }
             if (i === bonus.x && j === bonus.y) {
                 if (isBonus)
@@ -162,7 +162,7 @@ function updateTime() {
         isClock = false;
         clock.x = null;
         clock.y = null;
-        window.clearTimeout(intervalTime);
+        window.clearInterval(intervalTime);
     }
 }
 function UpdatePosition() {
@@ -246,8 +246,8 @@ function updateMonsters() {
             window.clearInterval(interval);
             window.clearInterval(intervalMonsters);
             window.clearInterval(intervalBonus);
-            window.clearTimeout(intervalTime);
-            window.clearTimeout(intervalMedicine);
+            window.clearInterval(intervalTime);
+            window.clearInterval(intervalMedicine);
             window.alert("You have "+pacman_remain+" more lives!");
             board[shape.i][shape.j]=0;
             continueGame();
@@ -448,10 +448,10 @@ function updateMedicine() {
         medicine.x = null;
         medicine.y = null;
         noMonsters = true;
-        window.clearInterval(intervalMedicine);
-        window.clearInterval(intervalMonsters);
         returnMonsters = time_elapsed-10;
         clearMonsters();
+        window.clearInterval(intervalMedicine);
+        window.clearInterval(intervalMonsters);
         window.alert("You have 10 sec without monsters!!!");
     } else {
         let rand = getRandomInt(4);
