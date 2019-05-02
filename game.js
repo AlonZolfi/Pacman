@@ -6,7 +6,7 @@ var score=0;
 var pac_color;
 var time_pass;
 var time_elapsed;
-var interval;
+var intervalGame;
 var intervalMonsters;
 var intervalBonus;
 var intervalTime;
@@ -208,7 +208,7 @@ function UpdatePosition() {
         creatMonsters();
     }
     if (time_elapsed <= 0) {
-        window.clearInterval(interval);
+        window.clearInterval(intervalGame);
         window.clearInterval(intervalMonsters);
         window.clearInterval(intervalBonus);
         window.clearInterval(intervalTime);
@@ -222,7 +222,7 @@ function UpdatePosition() {
         goTo("settings");
     }
     if (ballsRemain===0) {
-        window.clearInterval(interval);
+        window.clearInterval(intervalGame);
         window.clearInterval(intervalMonsters);
         window.clearInterval(intervalBonus);
         window.clearInterval(intervalTime);
@@ -241,14 +241,22 @@ function updateMonsters() {
         var booleanLeft = (xMonster > 0 && board[xMonster - 1][yMonster] !== 4);
         var booleanRight = (xMonster < boardLnt+1 && board[xMonster+ 1][yMonster] !== 4);
         if (xMonster === shape.i && yMonster===shape.j) {
-            score-=10;
-            window.clearInterval(interval);
+            score -= 10;
+            window.clearInterval(intervalGame);
             window.clearInterval(intervalMonsters);
             window.clearInterval(intervalBonus);
             window.clearInterval(intervalTime);
             window.clearInterval(intervalMedicine);
-            window.alert("You have "+pacman_remain+" more lives!");
-            board[shape.i][shape.j]=0;
+            if(isClock) {
+                clock.x = null;
+                clock.y = null;
+            }
+            if (isMedicine) {
+                medicine.x = null;
+                medicine.y = null;
+            }
+            board[shape.i][shape.j] = 0;
+            window.alert("You have " + pacman_remain + " more lives!");
             continueGame();
         }
         else {
@@ -391,10 +399,14 @@ function continueGame() {
         shape.i = xCell;
         shape.j = yCell;
         pacman_remain--;
+        if(time_elapsed<60) {
+            creatClock();
+            creatMonsters();
+        }
     } else{
         lost=true;
         window.alert("You Lost!");
-        window.clearInterval(interval);
+        window.clearInterval(intervalGame);
         window.clearInterval(intervalMonsters);
         window.clearInterval(intervalBonus);
         window.clearInterval(intervalTime);
@@ -416,7 +428,7 @@ function continueGame() {
     addEventListener("keyup", function (e) {
         keysDown[e.code] = false;
     }, false);
-    interval = setInterval(UpdatePosition, 100);
+    intervalGame = setInterval(UpdatePosition, 100);
     intervalMonsters = setInterval(updateMonsters, 200);
     intervalBonus = setInterval(updateBonus, 200);
 }
@@ -428,6 +440,7 @@ function creatClock() {
     clock.y = boardLnt / 2;
     intervalTime = setInterval(updateTime, 200);
 }
+
 function creatMedicine() {
     var emptyCell = findRandomEmptyCell(board);
     medicine = {};
