@@ -1,4 +1,6 @@
-
+#contact_register{
+    position: relative;
+}
 .form-style-8,.form-style-9{
     font-family: arial, sans;
     width: 500px;
@@ -8,7 +10,6 @@
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
     -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
     -webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
-
 }
 .form-style-8 h2, .form-style-9 h2{
     background: #4D4D4D;
