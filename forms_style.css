@@ -10,6 +10,8 @@
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
     -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
     -webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
+    z-index: 2;
+
 }
 .form-style-8 h2, .form-style-9 h2{
     background: #4D4D4D;

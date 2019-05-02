@@ -1,29 +1,29 @@
-#header
-{
+#header {
 	background-color: blue;
-	position:absolute;
+	position:fixed;
 	top:0;
 	left:0;
 	width:100%;
 	height:10%;
+	z-index: 10;
 }
 
-#menu
-{
+#menu {
 	background-color: red;
-	position:fixed;
+	position: fixed;
 	top:10%;
 	left:0;
 	width:10%;
-	height:80%;
+	height:85%;
 }
-#content
-{
+
+#content {
 	position:absolute;
 	top:10%;
 	left:10%;
 	width:90%;
-	height:80%;
+	height:85%;
+	z-index: 2;
 }
 
 #canvas{
@@ -32,14 +32,14 @@
 	height:75%;
 }
 
-#footer
-{
+#footer {
 	background-color: yellow;
-	position:absolute;
-	top:90%;
+	position:fixed;
+	top:95%;
 	left:0;
 	width:100%;
-	height:10%;
+	height:5%;
+	z-index: 10;
 }
 
 .a_menu{
@@ -52,12 +52,15 @@
 	width: 100px;
 	text-align: right;
 }
+
 #contact_submit{
 	padding-left: 100px;
 }
+
 #contact_register div{
 	margin-top: 1em;
 }
+
 textarea{
 	vertical-align: top;
 	height: 5em;
@@ -67,8 +70,8 @@ textarea{
 	float:right;
 }
 
-
 #welcome{
+	top:0;
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -125,6 +128,6 @@ textarea{
 
 #logo_img{
 	height: 100%;
-	width: 6%;
+	width: 10%;
 }
 

@@ -148,7 +148,7 @@ $(document).ready(function() {
             (this).removeClass("valid").addClass("invalid");
         }
     });
-    $("#contact_left_button").keypress(function(event){
+    $("#contact_left_button").keydown(function(event){
         if (event.keyCode == 8 || event.keyCode == 46){
             event.preventDefault();
         }
@@ -164,7 +164,7 @@ $(document).ready(function() {
             (this).removeClass("valid").addClass("invalid");
         }
     });
-    $("#contact_up_button").keypress(function(event){
+    $("#contact_up_button").keydown(function(event){
         if (event.keyCode == 8 || event.keyCode == 46){
             event.preventDefault();
         }
@@ -180,7 +180,7 @@ $(document).ready(function() {
             (this).removeClass("valid").addClass("invalid");
         }
     });
-    $("#contact_down_button").keypress(function(event){
+    $("#contact_down_button").keydown(function(event){
         if (event.keyCode == 8 || event.keyCode == 46){
             event.preventDefault();
         }

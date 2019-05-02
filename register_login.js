@@ -32,7 +32,7 @@ function logIn(){
 
 function showLoggedUser(name, isLogged){
     var logged = document.getElementById("logged_user");
-    logged.innerText=logged.innerText.concat(" " ,name);
+    logged.innerText="Hello "+name;
     if(isLogged)
         logged.hidden=false;
     else
