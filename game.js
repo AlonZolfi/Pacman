@@ -42,6 +42,9 @@ var lessThen60;
 var returnMonsters;
 var noMonsters;
 var intervalDraw;
+var a=1;
+var b=1;
+var wallImg = new Image();
 
 function stopGame() {
     window.clearInterval(intervalGame);
@@ -66,6 +69,7 @@ function setAllForGame() {
     user_monsters = $("#contact_monsters").val();
 }
 function startNewGame(){
+    stopGame();
     score=0;
     lost=false;
     lessThen60 = false;
@@ -76,7 +80,12 @@ function startNewGame(){
     isMedicine=false;
     isOpen=true;
     time_pass=0;
+    keysDown = {};
+    addEventListener("keydown", function (e) {
+        keysDown[e.code]=true;
+    }, false);
     Start();
+    wallImg.src = "wall.png"
 }
 function Start() {
     board = [];
@@ -92,16 +101,16 @@ function Start() {
         for (var j = 0; j < boardLnt + 2; j++) {
             if (i === 0 || j === 0 || i === boardLnt + 1 || j === boardLnt + 1 || (i === 1 && j === 3) ||
                 (i === 2 && j === 6) || (i === 2 && j === 7) || (i === 2 && j === 8) || (i === 2 && j === 11) || (i === 2 && j === 12) || (i === 2 && j === 13) || (i === 2 && j === 14) || (i === 2 && j === 15) ||
-                (i === 3 && j === 2) || (i === 3 && j === 3) || (i === 3 && j === 4) || (i === 3 && j === 5) || (i === 3 && j === 6) || (i === 3 && j === 13) || (i === 3 && j === 15) ||
+                //(i === 3 && j === 2) || (i === 3 && j === 3) || (i === 3 && j === 4) || (i === 3 && j === 5) || (i === 3 && j === 6) || (i === 3 && j === 13) || (i === 3 && j === 15) ||
                 (i === 4 && j === 2) || (i === 4 && j === 6) || (i === 4 && j === 9) || (i === 4 && j === 10) || (i === 4 && j === 11) || (i === 4 && j === 13) || (i === 4 && j === 15) ||
                 (i === 5 && j === 2) || (i === 5 && j === 4) || (i === 5 && j === 6) || (i === 5 && j === 9) || (i === 5 && j === 11) || (i === 5 && j === 13) || (i === 5 && j === 15) ||
-                (i === 6 && j === 2) || (i === 6 && j === 4) || (i === 6 && j === 6) || (i === 6 && j === 9) || (i === 6 && j === 11) || (i === 6 && j === 13) || (i === 6 && j === 15) ||
+                //(i === 6 && j === 2) || (i === 6 && j === 4) || (i === 6 && j === 6) || (i === 6 && j === 9) || (i === 6 && j === 11) || (i === 6 && j === 13) || (i === 6 && j === 15) ||
                 (i === 7 && j === 2) || (i === 7 && j === 4) || (i === 7 && j === 6) || (i === 7 && j === 9) || (i === 7 && j === 11) || (i === 7 && j === 15) ||
                 (i === 8 && j === 4) || (i === 8 && j === 6) || (i === 8 && j === 9) || (i === 8 && j === 11) || (i === 8 && j === 15) ||
-                (i === 9 && j === 2) || (i === 9 && j === 4) || (i === 9 && j === 6) || (i === 9 && j === 9) || (i === 9 && j === 11) || (i === 9 && j === 12) || (i === 9 && j === 13) || (i === 9 && j === 15) ||
+                //(i === 9 && j === 2) || (i === 9 && j === 4) || (i === 9 && j === 6) || (i === 9 && j === 9) || (i === 9 && j === 11) || (i === 9 && j === 12) || (i === 9 && j === 13) || (i === 9 && j === 15) ||
                 (i === 10 && j === 2) || (i === 10 && j === 4) || (i === 10 && j === 6) || (i === 10 && j === 8) || (i === 10 && j === 9) || (i === 10 && j === 11) || (i === 10 && j === 15) ||
                 (i === 11 && j === 2) || (i === 11 && j === 4) || (i === 11 && j === 6) || (i === 11 && j === 8) || (i === 11 && j === 11) || (i === 11 && j === 15) ||
-                (i === 12 && j === 2) || (i === 12 && j === 4) || (i === 12 && j === 6) || (i === 12 && j === 8) || (i === 12 && j === 11) || (i === 12 && j === 13) || (i === 12 && j === 15) ||
+               // (i === 12 && j === 2) || (i === 12 && j === 4) || (i === 12 && j === 6) || (i === 12 && j === 8) || (i === 12 && j === 11) || (i === 12 && j === 13) || (i === 12 && j === 15) ||
                 (i === 13 && j === 2) || (i === 13 && j === 6) || (i === 13 && j === 8) || (i === 13 && j === 11) || (i === 13 && j === 13) || (i === 13 && j === 15) ||
                 (i === 14 && j === 2) || (i === 14 && j === 3) || (i === 14 && j === 4) || (i === 14 && j === 6) || (i === 14 && j === 11) || (i === 14 && j === 13) || (i === 14 && j === 15) ||
                 (i === 15 && j === 6) || (i === 15 && j === 7) || (i === 15 && j === 8) || (i === 15 && j === 9) || (i === 15 && j === 11) || (i === 15 && j === 13) || (i === 15 && j === 15)
@@ -179,15 +188,9 @@ function continueGame() {
         bonus.y = boardLnt;
         intervalBonus = setInterval(updateBonus, 200);
     }
-    keysDown = {};
-    addEventListener("keydown", function (e) {
-        keysDown[e.code] = true;
-    }, false);
-    addEventListener("keyup", function (e) {
-        keysDown[e.code] = false;
-    }, false);
+
     intervalGame = setInterval(updatePosition, 100);
-    intervalDraw = setInterval(Draw,20);
+    intervalDraw = setInterval(Draw,100);
 }
 function Draw() {
     context.clearRect(0, 0, canvas.width, canvas.height); //clean board
@@ -206,7 +209,6 @@ function Draw() {
                 context.beginPath();
                 if (isOpen) {
                     context.arc(center.x, center.y, squareR, 0.125 * Math.PI + degrees, 1.875 * Math.PI + degrees); // half circle
-                    isOpen=false;
                 }else {
                     context.arc(center.x, center.y, squareR, 0, 2 * Math.PI);
                     isOpen = true;
@@ -215,20 +217,32 @@ function Draw() {
                 context.fillStyle = pac_color; //color
                 context.fill();
                 context.beginPath();
-                context.arc(center.x + (squareW*0.125), center.y - (squareH*0.25), 2, 0, 2 * Math.PI); // circle
+                context.arc(center.x + (squareW*0.25*a), center.y - (squareH*0.25*b), 2, 0, 2 * Math.PI); // circle
                 context.fillStyle = "black"; //color
                 context.fill();
             } else if (board[i][j] === 25) {
+                context.beginPath();
+                context.arc(center.x, center.y, squareR*0.75 + 1, 0, 2 * Math.PI); // circle
+                context.fillStyle = "#e6faff"; //color
+                context.fill();
                 context.beginPath();
                 context.arc(center.x, center.y, squareR*0.75, 0, 2 * Math.PI); // circle
                 context.fillStyle = user_points25; //color
                 context.fill();
             } else if (board[i][j] === 15) {
                 context.beginPath();
+                context.arc(center.x, center.y, squareR*0.625 + 0.75, 0, 2 * Math.PI); // circle
+                context.fillStyle = "#e6faff"; //color
+                context.fill();
+                context.beginPath();
                 context.arc(center.x, center.y, squareR*0.625, 0, 2 * Math.PI); // circle
                 context.fillStyle = user_points15; //color
                 context.fill();
             } else if (board[i][j] === 5) {
+                context.beginPath();
+                context.arc(center.x, center.y, squareR*0.5 + 0.5, 0, 2 * Math.PI); // circle
+                context.fillStyle = "#e6faff"; //color
+                context.fill();
                 context.beginPath();
                 context.arc(center.x, center.y, squareR*0.5, 0, 2 * Math.PI); // circle
                 context.fillStyle = user_points5; //color
@@ -236,8 +250,9 @@ function Draw() {
             } else if (board[i][j] === 4) {
                 context.beginPath();
                 context.rect(center.x - (squareW/2), center.y - (squareH/2), squareH, squareW);
-                context.fillStyle = "grey"; //color
+                context.fillStyle = "#e6faff"; //color
                 context.fill();
+                context.drawImage(wallImg, i * squareH, j * squareW, squareH, squareW);
             }
             for (let k = 0; k < user_monsters; k++) {
                 var thaMonsterImg = enemyImg[k];
@@ -330,19 +345,25 @@ function updatePosition() {
         goTo("settings");
     }
 }
+
+function getManhattanDistance(wantedX, wantedY) {
+    return Math.sqrt(Math.pow(wantedX-shape.i,2)+Math.pow(wantedY-shape.j,2));
+
+}
+
 function updateMonsters() {
-    for (let i = 0; i <user_monsters && !lost ; i++) {
+    for (let i = 0; i < user_monsters && !lost; i++) {
         var xMonster = enemy[i].x;
         var yMonster = enemy[i].y;
-        var booleanUp = (yMonster > 0 && board[xMonster ][yMonster-1] !== 4);
-        var booleanDown = (yMonster < boardLnt+1 && board[xMonster][yMonster+1] !== 4);
+        var booleanUp = (yMonster > 0 && board[xMonster][yMonster - 1] !== 4);
+        var booleanDown = (yMonster < boardLnt + 1 && board[xMonster][yMonster + 1] !== 4);
         var booleanLeft = (xMonster > 0 && board[xMonster - 1][yMonster] !== 4);
-        var booleanRight = (xMonster < boardLnt+1 && board[xMonster+ 1][yMonster] !== 4);
-        if (xMonster === shape.i && yMonster===shape.j) {
-            lost=true;
+        var booleanRight = (xMonster < boardLnt + 1 && board[xMonster + 1][yMonster] !== 4);
+        if (xMonster === shape.i && yMonster === shape.j) {
+            lost = true;
             score -= 10;
             stopGame();
-            if(isClock) {
+            if (isClock) {
                 clock.x = null;
                 clock.y = null;
             }
@@ -353,8 +374,7 @@ function updateMonsters() {
             board[shape.i][shape.j] = 0;
             window.alert("You have " + pacman_remain + " more lives!");
             continueGame();
-        }
-        else {
+        } else {
             var rand = getRandomInt(10);
             if ( shape.i < xMonster && booleanLeft && anotherMonsterIsntThere(i,xMonster-1,yMonster))
                 enemy[i].x = xMonster - 1;
@@ -375,6 +395,29 @@ function updateMonsters() {
                     enemy[i].x = xMonster + 1;
             }
         }
+           /* var left = boardLnt;
+            var right = boardLnt;
+            var up = boardLnt;
+            var down = boardLnt;
+            if (booleanLeft && anotherMonsterIsntThere(i, xMonster - 1, yMonster))
+                left = getManhattanDistance(xMonster - 1, yMonster);
+            if (booleanUp && anotherMonsterIsntThere(i, xMonster, yMonster - 1))
+                up = getManhattanDistance(xMonster, yMonster - 1);
+            if (booleanRight && anotherMonsterIsntThere(i, xMonster + 1, yMonster))
+                right = getManhattanDistance(xMonster + 1, yMonster);
+            if (booleanDown && anotherMonsterIsntThere(i, xMonster, yMonster + 1))
+                down = getManhattanDistance(xMonster, yMonster + 1);
+            var max = Math.min(left, right, up, down);
+            if (max === right)
+                enemy[i].x = xMonster + 1;
+            else if (max === left)
+                enemy[i].x = xMonster - 1;
+            else if (max === up)
+                enemy[i].y = yMonster - 1;
+            else if(max === down)
+                enemy[i].y = yMonster + 1;
+
+        }*/
     }
 }
 function updateBonus() {
@@ -500,20 +543,37 @@ function getRandomInt(max) {
 function GetKeyPressed() {
     var x;
     if (keysDown[user_up]) {
-        degrees = (Math.PI/2*3);
+        isOpen=false;
         x= 1;
+        degrees = (Math.PI/2*3);
+        a=-1;
+        b=1;
+        keysDown[user_up]=false;
     }
     else if (keysDown[user_down]) {
-        degrees = (Math.PI/2);
+        isOpen=false;
         x= 2;
+        degrees = (Math.PI/2);
+        a=1;
+        b=-1;
+        keysDown[user_down] = false;
     }
     else if (keysDown[user_left]) {
-        degrees = Math.PI;
+        isOpen=false;
         x=3;
+        degrees = Math.PI;
+        a=-1;
+        b=1;
+        keysDown[user_left] = false;
     }
     else if (keysDown[user_right]) {
-        degrees=0;
+        isOpen=false;
         x= 4;
+        degrees=0;
+        a=1;
+        b=1;
+        keysDown[user_right] = false;
     }
+    console.log(x);
     return x;
 }

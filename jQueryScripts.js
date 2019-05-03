@@ -8,9 +8,12 @@ $(".a_menu").click(function(event){
         var shortName = clickedName.substring(2, clickedName.length);
         if (divName === shortName)
             div_content[i].hidden = false;
-        else
+        else {
             div_content[i].hidden = true;
-
+            if(divName === "game")
+                stopGame();
+        }
     }
-
 });
+
+
