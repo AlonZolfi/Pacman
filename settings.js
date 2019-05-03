@@ -138,7 +138,7 @@ $(document).ready(function() {
         }
         else if (event.code != user_left && event.code!=user_up && event.code!=user_down) {
             user_right = event.code;
-            $(this).val(right);
+            $(this).val(user_right);
             $(this).removeClass("invalid").addClass("valid");
             event.preventDefault();
         }
@@ -154,7 +154,7 @@ $(document).ready(function() {
         }
         else if (event.code != user_right && event.code!=user_up && event.code!=user_down) {
             user_left = event.code;
-            $(this).val(left);
+            $(this).val(user_left);
             $(this).removeClass("invalid").addClass("valid");
             event.preventDefault();
         }
@@ -170,7 +170,7 @@ $(document).ready(function() {
         }
         else if (event.code != user_left && event.code!=user_right && event.code!=user_down) {
             user_up = event.code;
-            $(this).val(up);
+            $(this).val(user_up);
             $(this).removeClass("invalid").addClass("valid");
             event.preventDefault();
         }
@@ -186,7 +186,7 @@ $(document).ready(function() {
         }
         else if (event.code != user_left && event.code!=user_up && event.code!=user_right) {
             user_down = event.code;
-            $(this).val(down);
+            $(this).val(user_down);
             $(this).removeClass("invalid").addClass("valid");
             event.preventDefault();
         }
