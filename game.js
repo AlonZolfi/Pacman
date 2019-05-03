@@ -372,7 +372,7 @@ function updateMonsters() {
                 medicine.y = null;
             }
             board[shape.i][shape.j] = 0;
-            window.alert("You have " + pacman_remain + " more lives!");
+            //window.alert("You have " + pacman_remain + " more lives!");
             continueGame();
         } else {
             var rand = getRandomInt(10);
@@ -433,7 +433,7 @@ function updateBonus() {
         score += 50;
         window.clearInterval(intervalBonus);
         isBonus=false;
-        window.alert("Great job! 50 point bonus for you!");
+        //window.alert("Great job! 50 point bonus for you!");
     } else {
         let rand = getRandomInt(3);
         if (rand === 1 && booleanUp) {
@@ -461,7 +461,7 @@ function updateMedicine() {
         returnMonsters = time_elapsed-10;
         clearMonsters();
         window.clearInterval(intervalMedicine);
-        window.alert("You have 10 sec without user_monsters!!!");
+        window.alert("You have 10 sec without monsters!!!");
     } else {
         let rand = getRandomInt(3);
         if (rand === 1 && mbooleanUp) {

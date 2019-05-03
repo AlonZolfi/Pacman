@@ -12,7 +12,7 @@ function saveUser(register_form){
     var email = register_form[4].value;
     var birthdate = register_form[5].value;
     reg_users.push({username:user_name,password:password,firstname: first_name, lastname: last_name, email: email, birthdate: birthdate});
-    alert("Registered Successfully");
+    //alert("Registered Successfully");
 }
 
 function logIn(){
@@ -21,7 +21,7 @@ function logIn(){
     for (let i = 0; i < reg_users.length; i++) {
         var user = reg_users[i];
         if (user.username == username && user.password == password) {
-            alert("login successful");
+            //alert("login successful");
             showLoggedUser(username,true);
             goTo("settings");
             return;
