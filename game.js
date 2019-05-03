@@ -114,7 +114,7 @@ function Start() {
                 board[i][j] = 4;
             else {
                 var randomNum = getRandomInt(100);
-                if (randomNum > 60) {
+                if (randomNum > 70) {
                     if (randomNum > 90 && food_remain_25 > 0) {
                         board[i][j] = 25;
                         food_remain_25--;
