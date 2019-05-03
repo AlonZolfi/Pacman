@@ -162,7 +162,7 @@
 
     <div id="login" hidden="true" class="form-style-8">
         <h3>Log In to Your Account</h3>
-        <form id="login_form" onsubmit="logIn()">
+        <form id="login_form" onsubmit="logIn()" autocomplete="off">
             <input id="username_login" type="text" name="userName" class="login_input" placeholder="User Name"/>
             <input id="password_login" type="password" name="password" class="login_input" placeholder="Password"/>
             <input type="submit" value="Log in" onclick="logIn(); return false;"/>
@@ -172,11 +172,11 @@
     <div id="game" hidden="true">
         <p id="logged_user" hidden="true">Hello</p>
         SCORE:
-        <input id="lblScore" type="text"/>
+        <input id="lblScore" type="text" size="5"/>
         TIME:
-        <input id="lblTime" type="text"/>
+        <input id="lblTime" type="text" size="5"/>
         LIFE:
-        <input id="lblLife" type="text"/>
+        <input id="lblLife" type="text" size="5"/>
         <br />
         <canvas id="canvas" width="720" height="720"></canvas>
         <button type="button" id="start_new_game" onclick="startNewGame();">Start New Game</button>

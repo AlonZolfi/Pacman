@@ -30,7 +30,7 @@
 }
 
 #canvas{
-	background-color: rgba(27, 79, 101, 0.86);
+	background-color: black;
 	position:absolute;
 	width:50%;
 	height:75%;
@@ -201,3 +201,4 @@ body {font-family: Arial, Helvetica, sans-serif;}
 	text-decoration: none;
 	cursor: pointer;
 }
+

@@ -90,6 +90,7 @@ function startNewGame(){
 function Start() {
     board = [];
     pac_color = "yellow";
+    pac_color = "yellow";
     var cnt = boardLnt * boardLnt;
     ballsRemain = user_food;
     var food_remain = user_food;
@@ -99,24 +100,19 @@ function Start() {
     for (var i = 0; i < boardLnt + 2; i++) {
         board[i] = [];
         for (var j = 0; j < boardLnt + 2; j++) {
-            if (i === 0 || j === 0 || i === boardLnt + 1 || j === boardLnt + 1 || (i === 1 && j === 3) ||
-                (i === 2 && j === 6) || (i === 2 && j === 7) || (i === 2 && j === 8) || (i === 2 && j === 11) || (i === 2 && j === 12) || (i === 2 && j === 13) || (i === 2 && j === 14) || (i === 2 && j === 15) ||
-                //(i === 3 && j === 2) || (i === 3 && j === 3) || (i === 3 && j === 4) || (i === 3 && j === 5) || (i === 3 && j === 6) || (i === 3 && j === 13) || (i === 3 && j === 15) ||
-                (i === 4 && j === 2) || (i === 4 && j === 6) || (i === 4 && j === 9) || (i === 4 && j === 10) || (i === 4 && j === 11) || (i === 4 && j === 13) || (i === 4 && j === 15) ||
-                (i === 5 && j === 2) || (i === 5 && j === 4) || (i === 5 && j === 6) || (i === 5 && j === 9) || (i === 5 && j === 11) || (i === 5 && j === 13) || (i === 5 && j === 15) ||
-                //(i === 6 && j === 2) || (i === 6 && j === 4) || (i === 6 && j === 6) || (i === 6 && j === 9) || (i === 6 && j === 11) || (i === 6 && j === 13) || (i === 6 && j === 15) ||
-                (i === 7 && j === 2) || (i === 7 && j === 4) || (i === 7 && j === 6) || (i === 7 && j === 9) || (i === 7 && j === 11) || (i === 7 && j === 15) ||
-                (i === 8 && j === 4) || (i === 8 && j === 6) || (i === 8 && j === 9) || (i === 8 && j === 11) || (i === 8 && j === 15) ||
-                //(i === 9 && j === 2) || (i === 9 && j === 4) || (i === 9 && j === 6) || (i === 9 && j === 9) || (i === 9 && j === 11) || (i === 9 && j === 12) || (i === 9 && j === 13) || (i === 9 && j === 15) ||
-                (i === 10 && j === 2) || (i === 10 && j === 4) || (i === 10 && j === 6) || (i === 10 && j === 8) || (i === 10 && j === 9) || (i === 10 && j === 11) || (i === 10 && j === 15) ||
-                (i === 11 && j === 2) || (i === 11 && j === 4) || (i === 11 && j === 6) || (i === 11 && j === 8) || (i === 11 && j === 11) || (i === 11 && j === 15) ||
-               // (i === 12 && j === 2) || (i === 12 && j === 4) || (i === 12 && j === 6) || (i === 12 && j === 8) || (i === 12 && j === 11) || (i === 12 && j === 13) || (i === 12 && j === 15) ||
-                (i === 13 && j === 2) || (i === 13 && j === 6) || (i === 13 && j === 8) || (i === 13 && j === 11) || (i === 13 && j === 13) || (i === 13 && j === 15) ||
-                (i === 14 && j === 2) || (i === 14 && j === 3) || (i === 14 && j === 4) || (i === 14 && j === 6) || (i === 14 && j === 11) || (i === 14 && j === 13) || (i === 14 && j === 15) ||
-                (i === 15 && j === 6) || (i === 15 && j === 7) || (i === 15 && j === 8) || (i === 15 && j === 9) || (i === 15 && j === 11) || (i === 15 && j === 13) || (i === 15 && j === 15)
-            ) {
+            if (i === 0 || j === 0 || i === boardLnt + 1 || j === boardLnt + 1 ||
+                (i === 1 && (j === 3 ||  j === 14)) ||
+                (i === 16 && (j === 3 ||  j === 14)) ||
+                (i === 6 && (j === 6 ||  j === 11)) ||
+                (i === 11 && (j === 6 ||  j === 11)) ||
+                (i === 7 && (j === 3 ||  j === 14)) ||
+                (i === 8 && (j === 3 ||  j === 14)) ||
+                (i === 9 && (j === 3 ||  j === 14)) ||
+                (i === 10 && (j === 3 ||  j === 14)) ||
+                (i === 3 && (j === 1 ||  j === 7 || j === 8 || j === 9 || j === 10 || j === 16)) ||
+                (i === 14 && (j === 1 ||  j === 7 || j === 8 || j === 9 || j === 10 || j === 16)))
                 board[i][j] = 4;
-            } else {
+            else {
                 var randomNum = getRandomInt(100);
                 if (randomNum > 60) {
                     if (randomNum > 90 && food_remain_25 > 0) {
@@ -189,8 +185,8 @@ function continueGame() {
         intervalBonus = setInterval(updateBonus, 200);
     }
 
-    intervalGame = setInterval(updatePosition, 100);
-    intervalDraw = setInterval(Draw,100);
+    intervalGame = setInterval(updatePosition, 50);
+    intervalDraw = setInterval(Draw,20);
 }
 function Draw() {
     context.clearRect(0, 0, canvas.width, canvas.height); //clean board
@@ -231,7 +227,7 @@ function Draw() {
                 context.fill();
             } else if (board[i][j] === 15) {
                 context.beginPath();
-                context.arc(center.x, center.y, squareR*0.625 + 0.75, 0, 2 * Math.PI); // circle
+                context.arc(center.x, center.y, squareR*0.625 + 1, 0, 2 * Math.PI); // circle
                 context.fillStyle = "#e6faff"; //color
                 context.fill();
                 context.beginPath();
@@ -240,7 +236,7 @@ function Draw() {
                 context.fill();
             } else if (board[i][j] === 5) {
                 context.beginPath();
-                context.arc(center.x, center.y, squareR*0.5 + 0.5, 0, 2 * Math.PI); // circle
+                context.arc(center.x, center.y, squareR*0.5 + 1, 0, 2 * Math.PI); // circle
                 context.fillStyle = "#e6faff"; //color
                 context.fill();
                 context.beginPath();
@@ -250,7 +246,7 @@ function Draw() {
             } else if (board[i][j] === 4) {
                 context.beginPath();
                 context.rect(center.x - (squareW/2), center.y - (squareH/2), squareH, squareW);
-                context.fillStyle = "#e6faff"; //color
+                context.fillStyle = "blue"; //color
                 context.fill();
                 context.drawImage(wallImg, i * squareH, j * squareW, squareH, squareW);
             }
@@ -289,7 +285,7 @@ function updateTime() {
     }
 }
 function updatePosition() {
-    time_pass+=0.1;
+    time_pass+=0.05;
     board[shape.i][shape.j] = 0;
     var x = GetKeyPressed();
     if (x === 1)
@@ -317,7 +313,7 @@ function updatePosition() {
         ballsRemain--;
     }
     board[shape.i][shape.j] = 2;
-    time_elapsed = user_time - time_pass;
+    time_elapsed = (user_time - time_pass).toFixed(0);
     if (!lessThen60 && time_elapsed<=60){
         lessThen60 = true;
         isClock = true;
@@ -395,29 +391,6 @@ function updateMonsters() {
                     enemy[i].x = xMonster + 1;
             }
         }
-           /* var left = boardLnt;
-            var right = boardLnt;
-            var up = boardLnt;
-            var down = boardLnt;
-            if (booleanLeft && anotherMonsterIsntThere(i, xMonster - 1, yMonster))
-                left = getManhattanDistance(xMonster - 1, yMonster);
-            if (booleanUp && anotherMonsterIsntThere(i, xMonster, yMonster - 1))
-                up = getManhattanDistance(xMonster, yMonster - 1);
-            if (booleanRight && anotherMonsterIsntThere(i, xMonster + 1, yMonster))
-                right = getManhattanDistance(xMonster + 1, yMonster);
-            if (booleanDown && anotherMonsterIsntThere(i, xMonster, yMonster + 1))
-                down = getManhattanDistance(xMonster, yMonster + 1);
-            var max = Math.min(left, right, up, down);
-            if (max === right)
-                enemy[i].x = xMonster + 1;
-            else if (max === left)
-                enemy[i].x = xMonster - 1;
-            else if (max === up)
-                enemy[i].y = yMonster - 1;
-            else if(max === down)
-                enemy[i].y = yMonster + 1;
-
-        }*/
     }
 }
 function updateBonus() {
@@ -505,7 +478,7 @@ function createMonsters() {
         enemy[i].x = xMonster;
         enemy[i].y = yMonster;
     }
-    intervalMonsters = setInterval(updateMonsters, 500);
+    intervalMonsters = setInterval(updateMonsters, 250);
 }
 
 function clearMonsters() {
