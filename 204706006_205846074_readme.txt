@@ -1,0 +1,13 @@
+Site url: https://alonzolfi.github.io/Pacman/
+
+Hila Kesem Hadad 204706006
+Alon Zolfi 205846074
+
+Additional gaming features:
+1. Pacmans mouth opens and closes while moving (how can he eat with his mouth open all the time??)
+2. Moving pill that moves on the board and gives you 10 seconds(!) without any monsters to catch you.
+3. Extra time (30 secs) to play the game if you collect the clock.
+
+Have a great time playing our game,
+HilAlon
+
